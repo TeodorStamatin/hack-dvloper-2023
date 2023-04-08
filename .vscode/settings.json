@@ -1,6 +1,14 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "uci.h": "c"
+        "uci.h": "c",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "stdio.h": "c"
     }
 }
