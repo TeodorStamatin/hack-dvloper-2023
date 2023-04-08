@@ -96,38 +96,40 @@ Piece** init_matrix() {
     return table;
 }
 
-void print_matrix(Piece** table) {
+void print_matrix(Piece** table, FILE* out) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if (((Piece**)table)[i][j] != NULL) {
-                printf("%c", (((Piece**)table)[i][j]->color == BLACK) ? 'B' : 'W');
+                fprintf(out, "%c", (((Piece**)table)[i][j]->color == BLACK) ? 'B' : 'W');
                 switch (((Piece**)table)[i][j]->type) {
                     case PAWN:
-                        printf("P ");
+                        fprintf(out, "P ");
                         break;
                     case BISHOP:
-                        printf("B ");
+                        fprintf(out, "B ");
                         break;
                     case KNIGHT:
-                        printf("N ");
+                        fprintf(out, "N ");
                         break;
                     case KING:
-                        printf("K ");
+                        fprintf(out, "K ");
                         break;
                     case QUEEN:
-                        printf("Q ");
+                        fprintf(out, "Q ");
                         break;
                     case ROOK:
-                        printf("R ");
+                        fprintf(out, "R ");
                         break;
                 }
             } else {
-                printf("  ");
+                fprintf(out, "  ");
             }
+            fprintf(out, " ");
         }
-        printf("\n");
+        fprintf(out, "\n");
     }
 }
+
 
 void free_matrix(Piece** table) {
     for (int i = 0; i < 8; i++) {
