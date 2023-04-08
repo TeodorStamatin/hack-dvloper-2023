@@ -26,5 +26,5 @@ typedef struct piece {
 void** init_matrix();
 void print_matrix(void** table);
 void** free_matrix(void** table);
-bool check_valid(Piece** table, int x1, int y1, int x2, int y2);
+bool check_valid(void** table, int x1, int y1, int x2, int y2);
 
