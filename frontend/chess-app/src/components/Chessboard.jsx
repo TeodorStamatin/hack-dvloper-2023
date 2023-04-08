@@ -81,14 +81,14 @@ function Chessboard(props) {
 
             if (piece !== null) {
                 listItems.push(
-                    <div className={`piece ${color} ${selected ? "selected" : ""}`} onClick={() => setSelectedPiece(piece)}>
-                        <Piece piece={piece} key={piece.position} />
+                    <div key={piece.position} className={`piece ${color} ${selected ? "selected" : ""}`} onClick={() => setSelectedPiece(piece)}>
+                        <Piece piece={piece} />
                     </div>);
             }
             else 
-                listItems.push(<div className={`piece ${color}`} onClick={() => performMove(i, j)}></div>);
+                listItems.push(<div key={getNameByPos(i, j)} className={`piece ${color}`} onClick={() => performMove(i, j)}></div>);
         })
-        board.push(<div className="row">{listItems}</div>)
+        board.push(<div className="row" key={`key` + i}>{listItems}</div>)
     })
     // construct a jsx object based on chessboard
   return (

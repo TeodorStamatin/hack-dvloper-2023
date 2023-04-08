@@ -1,32 +1,50 @@
 import React from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function Chatbox(props) {
-    const [chat, setChat] = React.useState(
+    const [message, setMessage] = useState("");
+    const [chat, setChat] = useState(
         [
-            {userId: 1, text: "Hello"},
-            {userId: 1, text: "World"},
-            {userId: 2, text: "How"},
-            {userId: 1, text: "Are"},
-            {userId: 2, text: "You"},
-            {userId: 1, text: "Today"},
-            {userId: 2, text: "I"},
-            {userId: 2, text: "Am"},
-            {userId: 2, text: "Fine"},
-            {userId: 1, text: "Good"},
-            {userId: 1, text: "To"},
-            {userId: 1, text: "Hear"},
+            {userColor: "white", text: "Hello"},
+            {userColor: "white", text: "World"},
+            {userColor: "black", text: "How"},
+            {userColor: "white", text: "Are"},
+            {userColor: "black", text: "You"},
+            {userColor: "white", text: "Today"},
+            {userColor: "black", text: "I"},
+            {userColor: "black", text: "Am"},
+            {userColor: "black", text: "Fine"},
+            {userColor: "white", text: "Good"},
+            {userColor: "white", text: "To"},
+            {userColor: "white", text: "Hear"},
         ]);
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            if (message === "") return;
+            setChat([...chat, {userColor: props.userColor, text: message}]);
+            setMessage("");
+        }
+    }
+    const bottomRef = useRef();
+    useEffect(() => {
+        console.log("scrolling");
+        bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+      }, [chat]);
 
   return (
     <div className="chatBox">
         <div className="messageBox">
         {chat.map((message, index) => (
-            <div key={index} className={`message ${props.userId === message.userId ? "myMessage" : "otherMessage"}`}>
+            <div key={index} className={`message ${props.userColor === message.userColor ? "myMessage" : "otherMessage"}`}>
                 {message.text}
             </div>
         ))}
+        <div ref={bottomRef}></div>
       </div>
-      <input placeholder="Write..."></input>
+      <input placeholder="Write..." value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            onKeyPress={(event) => handleKeyPress(event)}></input>
     </div>
   );
 }
