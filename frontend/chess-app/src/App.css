@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -5,4 +11,44 @@
 body {
   background-color: #1f1f1f;
   color: white;
+}
+
+.piece {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+}
+
+.evenColor {
+  background-color: #fbfaff;
+}
+
+.oddColor {
+  background-color: #4a31ad;
+}
+
+.chessBoard {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5em;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.pieceImg {
+  width: 45px;
+  height: 45px;
+}
+
+.selected {
+  border: 3px solid orange;
 }
