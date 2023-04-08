@@ -1,0 +1,24 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+frontend/chess-app/.pnp
+frontend/chess-app/.pnp.js
+frontend/chess-app/node_modules
+backend/chess-app/venv
+
+# testing
+frontend/chess-app/coverage
+
+# production
+frontend/chess-app/build
+
+# misc
+frontend/chess-app/.DS_Store
+frontend/chess-app/.env.local
+frontend/chess-app/.env.development.local
+frontend/chess-app/.env.test.local
+frontend/chess-app/.env.production.local
+
+frontend/chess-app/npm-debug.log*
+frontend/chess-app/yarn-debug.log*
+frontend/chess-app/yarn-error.log*
