@@ -122,6 +122,18 @@ def createGame():
 
     return jsonify(pieces)
 
+@app.route("/api/checkMove", methods = ['POST'])
+def checkMove():
+    data = request.data.decode('utf-8')
+    json_data = json.loads(data)
+    with open("input.txt", "w") as outfile:
+        for piece in json_data["pieces"]:
+            outfile.write(piece["type"] + "," + str(int(piece["position"][1]) - 1) + "," + str(ord(piece["position"][0]) - ord('A')))
+    chessSDK.check_move.argtypes = [c_int, c_int, c_int, c_int]
+    chessSDK.check_move.restype = c_int
+    isValid = chessSDK.check_move(json_data["fromRow"], json_data["fromCol"], json_data["toRow"], json_data["toCol"])
+    return jsonify({"isValid": isValid})
+
 if __name__ == "__main__":
     create_users_table()
     insert_user("testuser", "testpass")
