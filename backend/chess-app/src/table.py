@@ -51,3 +51,5 @@ def check_move(board, color, piece, start, end):
 def main():
     board = create_chess_board()
     print_chess_board(board)
+
+main()

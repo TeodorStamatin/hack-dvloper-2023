@@ -27,10 +27,10 @@ typedef struct piece {
 Piece** init_matrix();
 void print_matrix(Piece** table, FILE* out);
 void free_matrix(Piece** table);
-int check_valid(Piece** table, int x1, int y1, int x2, int y2);
+int check_valid(Piece** table, FILE* in);
 char* fen(Piece** table);
-Piece** move_piece(Piece** table, int x1, int y1, int x2, int y2);
-int is_king_in_checkmate(Piece** table, piece_color_t color);
+Piece** move_piece(Piece** table, int x1, int y1, int x2, int y2, FILE* in);
+int is_king_in_checkmate(Piece** table, piece_color_t color, FILE* in);
 int is_king_in_check(Piece** table, piece_color_t color);
 int can_castle(Piece** table, int x, int y);
 int not_good_position(Piece** table, int x, int y);

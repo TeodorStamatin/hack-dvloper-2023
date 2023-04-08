@@ -18,77 +18,73 @@ Piece** init_matrix() {
         table[1][i]->color = BLACK;
         table[1][i]->type = PAWN;
         table[1][i]->hasMoved = false;
+    }
+    for (int i = 0; i < 8; i++) {
         table[6][i] = (Piece)malloc(sizeof(struct piece));
         table[6][i]->color = WHITE;
         table[6][i]->type = PAWN;
         table[6][i]->hasMoved = false;
     }
-    for(int i = 0; i < 8; i += 7) {
-        table[0][i] = (Piece)malloc(sizeof(struct piece));
-        table[0][i]->color = BLACK;
-        table[0][i]->type = ROOK;
-        table[0][i]->hasMoved = false;
-        table[0][i + 7] = (Piece)malloc(sizeof(struct piece));
-        table[0][i + 7]->color = BLACK;
-        table[0][i + 7]->type = ROOK;
-        table[0][i + 7]->hasMoved = false;
-        table[7][i] = (Piece)malloc(sizeof(struct piece));
-        table[7][i]->color = WHITE;
-        table[7][i]->type = ROOK;
-        table[7][i]->hasMoved = false;
-        table[7][i + 7] = (Piece)malloc(sizeof(struct piece));
-        table[7][i + 7]->color = WHITE;
-        table[7][i + 7]->type = ROOK;
-        table[7][i + 7]->hasMoved = false;
-    }
-    for(int i = 1; i < 7; i += 5) {
-        table[0][i] = (Piece)malloc(sizeof(struct piece));
-        table[0][i]->color = BLACK;
-        table[0][i]->type = KNIGHT;
-        table[0][i]->hasMoved = false;
-        table[0][i + 5] = (Piece)malloc(sizeof(struct piece));
-        table[0][i + 5]->color = BLACK;
-        table[0][i + 5]->type = KNIGHT;
-        table[0][i + 5]->hasMoved = false;
-        table[7][i] = (Piece)malloc(sizeof(struct piece));
-        table[7][i]->color = WHITE;
-        table[7][i]->type = KNIGHT;
-        table[7][i]->hasMoved = false;
-        table[7][i + 5] = (Piece)malloc(sizeof(struct piece));
-        table[7][i + 5]->color = WHITE;
-        table[7][i + 5]->type = KNIGHT;
-        table[7][i + 5]->hasMoved = false;
-    }
-    for(int i = 2; i < 6; i += 3) {
-        table[0][i] = (Piece)malloc(sizeof(struct piece));
-        table[0][i]->color = BLACK;
-        table[0][i]->type = BISHOP;
-        table[0][i]->hasMoved = false;
-        table[0][i + 3] = (Piece)malloc(sizeof(struct piece));
-        table[0][i + 3]->color = BLACK;
-        table[0][i + 3]->type = BISHOP;
-        table[0][i + 3]->hasMoved = false;
-        table[7][i] = (Piece)malloc(sizeof(struct piece));
-        table[7][i]->color = WHITE;
-        table[7][i]->type = BISHOP;
-        table[7][i]->hasMoved = false;
-        table[7][i + 3] = (Piece)malloc(sizeof(struct piece));
-        table[7][i + 3]->color = WHITE;
-        table[7][i + 3]->type = BISHOP;
-        table[7][i + 3]->hasMoved = false;
-    }
+    table[0][0] = (Piece)malloc(sizeof(struct piece));
+    table[0][0]->color = BLACK;
+    table[0][0]->type = ROOK;
+    table[0][0]->hasMoved = false;
+    table[0][7] = (Piece)malloc(sizeof(struct piece));
+    table[0][7]->color = BLACK;
+    table[0][7]->type = ROOK;
+    table[0][7]->hasMoved = false;
+    table[7][0] = (Piece)malloc(sizeof(struct piece));
+    table[7][0]->color = WHITE;
+    table[7][0]->type = ROOK;
+    table[7][0]->hasMoved = false;
+    table[7][7] = (Piece)malloc(sizeof(struct piece));
+    table[7][7]->color = WHITE;
+    table[7][7]->type = ROOK;
+    table[7][7]->hasMoved = false;
+    table[0][1] = (Piece)malloc(sizeof(struct piece));
+    table[0][1]->color = BLACK;
+    table[0][1]->type = KNIGHT;
+    table[0][1]->hasMoved = false;
+    table[0][6] = (Piece)malloc(sizeof(struct piece));
+    table[0][6]->color = BLACK;
+    table[0][6]->type = KNIGHT;
+    table[0][6]->hasMoved = false;
+    table[7][1] = (Piece)malloc(sizeof(struct piece));
+    table[7][1]->color = WHITE;
+    table[7][1]->type = KNIGHT;
+    table[7][1]->hasMoved = false;
+    table[7][6] = (Piece)malloc(sizeof(struct piece));
+    table[7][6]->color = WHITE;
+    table[7][6]->type = KNIGHT;
+    table[7][6]->hasMoved = false;
+    table[0][2] = (Piece)malloc(sizeof(struct piece));
+    table[0][2]->color = BLACK;
+    table[0][2]->type = BISHOP;
+    table[0][2]->hasMoved = false;
+    table[0][5] = (Piece)malloc(sizeof(struct piece));
+    table[0][5]->color = BLACK;
+    table[0][5]->type = BISHOP;
+    table[0][5]->hasMoved = false;
+    table[7][2] = (Piece)malloc(sizeof(struct piece));
+    table[7][2]->color = WHITE;
+    table[7][2]->type = BISHOP;
+    table[7][2]->hasMoved = false;
+    table[7][5] = (Piece)malloc(sizeof(struct piece));
+    table[7][5]->color = WHITE;
+    table[7][5]->type = BISHOP;
+    table[7][5]->hasMoved = false;
     table[0][3] = (Piece)malloc(sizeof(struct piece));
     table[0][3]->color = BLACK;
     table[0][3]->type = QUEEN;
     table[0][3]->hasMoved = false;
-    table[0][4] = (Piece)malloc(sizeof(struct piece));
-    table[0][4]->color = BLACK;
-    table[0][4]->type = KING;
-    table[0][4]->hasMoved = false;
     table[7][3] = (Piece)malloc(sizeof(struct piece));
     table[7][3]->color = WHITE;
     table[7][3]->type = QUEEN;
     table[7][3]->hasMoved = false;
+    table[0][4] = (Piece)malloc(sizeof(struct piece));
+    table[0][4]->color = BLACK;
+    table[0][4]->type = KING;
+    table[0][4]->hasMoved = false;
     table[7][4] = (Piece)malloc(sizeof(struct piece));
     table[7][4]->color = WHITE;
     table[7][4]->type = KING;
@@ -96,38 +92,21 @@ Piece** init_matrix() {
     return table;
 }
 
+//functia print matrix va afisa fiecare pe pozitia sa din matricea table sub forma <culoare><tip>,linie,coloana
 void print_matrix(Piece** table, FILE* out) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (((Piece**)table)[i][j] != NULL) {
-                fprintf(out, "%c", (((Piece**)table)[i][j]->color == BLACK) ? 'B' : 'W');
-                switch (((Piece**)table)[i][j]->type) {
-                    case PAWN:
-                        fprintf(out, "P ");
-                        break;
-                    case BISHOP:
-                        fprintf(out, "B ");
-                        break;
-                    case KNIGHT:
-                        fprintf(out, "N ");
-                        break;
-                    case KING:
-                        fprintf(out, "K ");
-                        break;
-                    case QUEEN:
-                        fprintf(out, "Q ");
-                        break;
-                    case ROOK:
-                        fprintf(out, "R ");
-                        break;
-                }
-            } else {
-                fprintf(out, "  ");
+            if (table[i][j] != NULL) {
+                char buf1[100];
+                strcpy(buf1, table[i][j]->color == WHITE ? "WHITE" : "BLACK");
+                char buf2[100];
+                strcpy(buf2, table[i][j]->type == PAWN ? "PAWN" : table[i][j]->type == ROOK ? "ROOK" : table[i][j]->type == KNIGHT ? "KNIGHT" : table[i][j]->type == BISHOP ? "BISHOP" : table[i][j]->type == QUEEN ? "QUEEN" : "KING");
+                fprintf(out, "%s_%s,%u,%u", buf1, buf2, i, j);
+                fprintf(out, "\n");
             }
-            fprintf(out, " ");
         }
-        fprintf(out, "\n");
     }
+    return;
 }
 
 
@@ -158,185 +137,353 @@ ONLY table->type->knight can jump over other piece. other pieces cand go to the 
 position on the table.*/
 
 
-int check_valid(Piece** table, int x1, int y1, int x2, int y2) {
-    // check if the position is on the table
+int check_valid(Piece** table, FILE *in) {
+    char buf[100];
+    fgets(buf, 100, in);
+    char* token = strtok(buf, ",");
+    char* color = strtok(token, "_");
+    char* type = strtok(NULL, "_");
+    int x1 = atoi(strtok(NULL, ","));
+    int y1 = atoi(strtok(NULL, ","));
+    int x2 = atoi(strtok(NULL, ","));
+    int y2 = atoi(strtok(NULL, ","));
+
     if (x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7 || y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) {
         return 0;
     }
     if (((Piece**)table)[x1][y1] == NULL) {
         return 0;
     }
-    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+    if (strcmp(color, "WHITE") == 0 && ((Piece**)table)[x1][y1]->color == BLACK) {
         return 0;
     }
-    if (x1 == x2 && y1 == y2) {
+    if (strcmp(color, "BLACK") == 0 && ((Piece**)table)[x1][y1]->color == WHITE) {
         return 0;
     }
-    if (is_king_in_check(table, ((Piece**)table)[x1][y1]->color)) {
-        goto stuck;
-    }
-    switch (((Piece**)table)[x1][y1]->type) {
-        // the pawn can move only one position forward, and if it is the first move, it can move two positions forward
-        // the pawn can take a piece only if it is in the diagonal position
-        case PAWN:
-            if (((Piece**)table)[x1][y1]->color == BLACK) {
-                if (x2 == x1 + 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
-                    return 1;
-                } else if (x2 == x1 + 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL && ((Piece**)table)[x1 + 1][y1] == NULL && x1 == 1) {
-                    return 1;
-                } else if (x2 == x1 + 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+    if (strcmp(type, "PAWN") == 0) {
+        if (((Piece**)table)[x1][y1]->color == WHITE) {
+            if (x1 == 1 && x2 == 3 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 1 && x2 == 2 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 6 && x2 == 4 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 6 && x2 == 5 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == x2 && y1 == y2) {
+                return 0;
+            }
+            if (x1 == x2 && y1 != y2) {
+                return 0;
+            }
+            if (x1 != x2 && y1 == y2) {
+                if (x2 - x1 == 1 && ((Piece**)table)[x2][y2] == NULL) {
                     return 1;
                 }
-            } else {
-                if (x2 == x1 - 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                return 0;
+            }
+            if (x1 != x2 && y1 != y2) {
+                if (x2 - x1 == 1 && abs(y2 - y1) == 1 && ((Piece**)table)[x2][y2] != NULL) {
                     return 1;
-                } else if (x2 == x1 - 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL && ((Piece**)table)[x1 - 1][y1] == NULL && x1 == 6) {
+                }
+                return 0;
+            }
+        }
+        if (((Piece**)table)[x1][y1]->color == BLACK) {
+            if (x1 == 6 && x2 == 4 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 6 && x2 == 5 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 1 && x2 == 3 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == 1 && x2 == 2 && y1 == y2 && ((Piece**)table)[x2][y2] == NULL) {
+                return 1;
+            }
+            if (x1 == x2 && y1 == y2) {
+                return 0;
+            }
+            if (x1 == x2 && y1 != y2) {
+                return 0;
+            }
+            if (x1 != x2 && y1 == y2) {
+                if (x1 - x2 == 1 && ((Piece**)table)[x2][y2] == NULL) {
                     return 1;
-                } else if (x2 == x1 - 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+                }
+                return 0;
+            }
+            if (x1 != x2 && y1 != y2) {
+                if (x1 - x2 == 1 && abs(y2 - y1) == 1 && ((Piece**)table)[x2][y2] != NULL) {
+                    return 1;
+                }
+                return 0;
+            }
+        }
+    }
+    if (strcmp(type, "ROOK") == 0) {
+        if (x1 == x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 == x2 && y1 != y2) {
+            if (y1 < y2) {
+                for (int i = y1 + 1; i < y2; i++) {
+                    if (((Piece**)table)[x1][i] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            if (y1 > y2) {
+                for (int i = y1 - 1; i > y2; i--) {
+                    if (((Piece**)table)[x1][i] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+        if (x1 != x2 && y1 == y2) {
+            if (x1 < x2) {
+                for (int i = x1 + 1; i < x2; i++) {
+                    if (((Piece**)table)[i][y1] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            if (x1 > x2) {
+                for (int i = x1 - 1; i > x2; i--) {
+                    if (((Piece**)table)[i][y1] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+    }
+    if (strcmp(type, "KNIGHT") == 0) {
+        if (x1 == x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 == x2 && y1 != y2) {
+            return 0;
+        }
+        if (x1 != x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 != x2 && y1 != y2) {
+            if (abs(x2 - x1) == 2 && abs(y2 - y1) == 1) {
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            if (abs(x2 - x1) == 1 && abs(y2 - y1) == 2) {
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            return 0;
+        }
+    }
+    if (strcmp(type, "BISHOP") == 0) {
+        if (x1 == x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 == x2 && y1 != y2) {
+            return 0;
+        }
+        if (x1 != x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 != x2 && y1 != y2) {
+            if (abs(x2 - x1) == abs(y2 - y1)) {
+                if (x1 < x2 && y1 < y2) {
+                    for (int i = 1; i < x2 - x1; i++) {
+                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
+                            return 0;
+                        }
+                    }
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 < x2 && y1 > y2) {
+                    for (int i = 1; i < x2 - x1; i++) {
+                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
+                            return 0;
+                        }
+                    }
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 > x2 && y1 < y2) {
+                    for (int i = 1; i < x1 - x2; i++) {
+                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
+                            return 0;
+                        }
+                    }
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 > x2 && y1 > y2) {
+                    for (int i = 1; i < x1 - x2; i++) {
+                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
+                            return 0;
+                        }
+                    }
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
                     return 1;
                 }
             }
             return 0;
-        case BISHOP:
+        }
+    }
+    if (strcmp(type, "QUEEN") == 0) {
+        if (x1 == x2 && y1 == y2) {
+            return 0;
+        }
+        if (x1 == x2 && y1 != y2) {
+            if (y1 < y2) {
+                for (int i = y1 + 1; i < y2; i++) {
+                    if (((Piece**)table)[x1][i] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            if (y1 > y2) {
+                for (int i = y1 - 1; i > y2; i--) {
+                    if (((Piece**)table)[x1][i] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+        if (x1 != x2 && y1 == y2) {
+            if (x1 < x2) {
+                for (int i = x1 + 1; i < x2; i++) {
+                    if (((Piece**)table)[i][y1] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+            if (x1 > x2) {
+                for (int i = x1 - 1; i > x2; i--) {
+                    if (((Piece**)table)[i][y1] != NULL) {
+                        return 0;
+                    }
+                }
+                if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+        if (x1 != x2 && y1 != y2) {
             if (abs(x2 - x1) == abs(y2 - y1)) {
-                if (x2 > x1 && y2 > y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
+                if (x1 < x2 && y1 < y2) {
+                    for (int i = 1; i < x2 - x1; i++) {
                         if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
                             return 0;
                         }
                     }
-                } else if (x2 > x1 && y2 < y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 < x2 && y1 > y2) {
+                    for (int i = 1; i < x2 - x1; i++) {
                         if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
                             return 0;
                         }
                     }
-                } else if (x2 < x1 && y2 > y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 > x2 && y1 < y2) {
+                    for (int i = 1; i < x1 - x2; i++) {
                         if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
                             return 0;
                         }
                     }
-                } else {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                if (x1 > x2 && y1 > y2) {
+                    for (int i = 1; i < x1 - x2; i++) {
                         if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
                             return 0;
                         }
                     }
+                    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color ==
+                        ((Piece**)table)[x1][y1]->color) {
+                        return 0;
+                    }
+                    return 1;
                 }
-                return 1;
             }
-            break;
-        case KNIGHT:
-            if ((abs(x2 - x1) == 2 && abs(y2 - y1) == 1) || (abs(x2 - x1) == 1 && abs(y2 - y1) == 2)) {
-                return 1;
-            }
-            break;
-        stuck:
-        case KING:
-            if (can_castle(table, x1, y1)) {
-                table = castling(table, x1, y1);
-                return 0;
-
-            }
-            if (abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1) {
-                return 1;
-            }
-            // check if the king can't be taken by other color chess pieces if he moves to the wanted position
-            if (is_king_in_check(table, ((Piece**)table)[x1][y1]->color)) {
+        }
+        return 0;
+    }
+    if (strcmp(type, "KING") == 0) {
+        if (x1 == x2 && y1 == y2) {
+            return 0;
+        }
+        if (abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1) {
+            if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
                 return 0;
             }
-            break;
-        case QUEEN:
-            if (abs(x2 - x1) == abs(y2 - y1)) {
-                if (x2 > x1 && y2 > y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 > x1 && y2 < y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 < x1 && y2 > y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
-                            return 0;
-                        }
-                    }
-                }
-                return 1;
-            } else if (x2 == x1 || y2 == y1) {
-                if (x2 > x1 && y2 == y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 + i][y1] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 < x1 && y2 == y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 - i][y1] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 == x1 && y2 > y1) {
-                    for (int i = 1; i < abs(y2 - y1); i++) {
-                        if (((Piece**)table)[x1][y1 + i] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else {
-                    for (int i = 1; i < abs(y2 - y1); i++) {
-                        if (((Piece**)table)[x1][y1 - i] != NULL) {
-                            return 0;
-                        }
-                    }
-                }
-                return 1;
-            }
-            break;
-        case ROOK:
-            if (x2 == x1 || y2 == y1) {
-                if (x2 > x1 && y2 == y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 + i][y1] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 < x1 && y2 == y1) {
-                    for (int i = 1; i < abs(x2 - x1); i++) {
-                        if (((Piece**)table)[x1 - i][y1] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else if (x2 == x1 && y2 > y1) {
-                    for (int i = 1; i < abs(y2 - y1); i++) {
-                        if (((Piece**)table)[x1][y1 + i] != NULL) {
-                            return 0;
-                        }
-                    }
-                } else {
-                    for (int i = 1; i < abs(y2 - y1); i++) {
-                        if (((Piece**)table)[x1][y1 - i] != NULL) {
-                            return 0;
-                        }
-                    }
-                }
-                return 1;
-            }
-        break;
+            return 1;
+        }
+        return 0;
     }
     return 0;
 }
+    
+
 
 // Implement a function to convert your chess matrix to FEN (Forsyth–Edwards Notation) format and returns the value into a string
 // respecting that patter: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 where the lower case are the white peaces and the upper case are the black peaces
@@ -425,8 +572,8 @@ char* fen(Piece** table) {
 
 // Implement a function that moves a piece from a position to another position. the position are represented by a string like "a1" or "h8". the positions are given as arguments. it checks if the move is valid
 // if the move is valid it returns the new table with the pieces moved
-Piece** move_piece(Piece** table, int from_x, int from_y, int to_x, int to_y) {
-    if (check_valid(table, from_x, from_y, to_x, to_y)) {
+Piece** move_piece(Piece** table, int from_x, int from_y, int to_x, int to_y, FILE *in) {
+    if (check_valid(table, in)) {
         table[to_x][to_y] = table[from_x][from_y];
         table[from_x][from_y] = NULL;
     }
@@ -434,7 +581,7 @@ Piece** move_piece(Piece** table, int from_x, int from_y, int to_x, int to_y) {
 }
 
 // check that king can't move anymore, check all the cases around the king and if there is a piece that can kill the king, return 1, else return 0
-int is_king_in_checkmate(Piece** table, piece_color_t color) {
+int is_king_in_checkmate(Piece** table, piece_color_t color, FILE *in) {
     int king_x = -1, king_y = -1;
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
@@ -457,9 +604,9 @@ int is_king_in_checkmate(Piece** table, piece_color_t color) {
                     // Dacă piesa de pe poziția (from_x, from_y) este de aceeași culoare ca regele, încercăm să găsim o mutare validă pentru acea piesă
                     for (int to_x = 0; to_x < 8; to_x++) {
                         for (int to_y = 0; to_y < 8; to_y++) {
-                            if (check_valid(table, from_x, from_y, to_x, to_y)) {
+                            if (check_valid(table, in)) {
                                 // Dacă mutarea este validă, încercăm să o efectuăm și verificăm dacă regele mai este în șah
-                                Piece** new_table = move_piece(table, from_x, from_y, to_x, to_y);
+                                Piece** new_table = move_piece(table, from_x, from_y, to_x, to_y, in);
                                 bool king_in_check = is_king_in_check(new_table, color);
                                 free_matrix(new_table);
                                 if (!king_in_check) {
