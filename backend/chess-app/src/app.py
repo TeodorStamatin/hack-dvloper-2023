@@ -1,6 +1,22 @@
+#!/usr/bin/python3
+
 from flask import Flask, request, session, redirect, jsonify
 import bcrypt
 import sqlite3
+from ctypes import *
+
+(BLACK, WHITE) = (0, 1)
+(PAWN, BISHOP, KNIGHT, KING, QUEEN, ROOK) = (0, 1, 2, 3, 4, 5)
+
+class Piece(Structure):
+    _fields_ = [
+        ('color', c_int),
+        ('type', c_int),
+        ('hasMoved', c_int),
+    ]
+
+
+chessSDK = CDLL("./table.so")  
 
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
@@ -42,7 +58,7 @@ def get_user(username, password):
 # Route for handling login requests
 import json
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.data.decode('utf-8')
     json_data = json.loads(data)
@@ -51,12 +67,12 @@ def login():
     user = get_user(username, password)
     if user:
         session["username"] = username
-        return jsonify({"status": "success"})
+        return jsonify({"status": "success", "username": username})
     else:
         return jsonify({"status": "failure", "message": "Invalid username or password"})
 
 # Route for handling sign-up requests
-@app.route("/signup", methods=["POST"])
+@app.route("/api/signup", methods=["POST"])
 def signup():
     username = request.json["username"]
     password = request.json["password"]
@@ -65,18 +81,24 @@ def signup():
     return jsonify({"status": "success"})
 
 # Route for handling logout requests
-@app.route("/logout")
+@app.route("/api/logout", methods = ["GET"])
 def logout():
     session.pop("username", None)
-    return redirect("/")
+    return jsonify({"status": "success"})
 
 # Route for displaying the main page
-@app.route("/")
+@app.route("/api/")
 def index():
     if "username" in session:
         return jsonify({"username": session["username"]})
     else:
         return jsonify({"message": "Not logged in"})
+
+@app.route("/api/createGame", methods = ['GET'])
+def createGame():
+    chessboard = POINTER(Piece)()
+    print(bool(chessboard))
+    return jsonify({})
 
 if __name__ == "__main__":
     create_users_table()

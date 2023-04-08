@@ -23,7 +23,6 @@ typedef struct piece {
     bool hasMoved;
 } *Piece;
 
-
 void** init_matrix();
 void print_matrix(void** table);
 void** free_matrix(void** table);
