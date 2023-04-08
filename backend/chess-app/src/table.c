@@ -1,4 +1,5 @@
 #include "table.h"
+#include <string.h>
 
 /* this function creates a matrix that represents the chess table*/
 
@@ -95,180 +96,262 @@ you should check if your chess piece has the right movement to go there, and if 
 color. lastly, you should check that if you move the wanted piece, your king cant be taken by other color chess pieces. NOTE THAT 
 ONLY table->type->knight can jump over other piece. other pieces cand go to the wanted position if they have to go through an occupied
 position on the table.*/
-bool check_valid(Piece** table, int x1, int y1, int x2, int y2) {
-    if(table[x1][y1] == NULL) {
+bool check_valid(void** table, int x1, int y1, int x2, int y2) {
+    if (x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7 || y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) {
         return false;
     }
-    if(table[x2][y2] != NULL) {
-        if(table[x1][y1]->color == table[x2][y2]->color) {
-            return false;
-        }
+    if (((Piece**)table)[x1][y1] == NULL) {
+        return false;
     }
-    if(table[x1][y1]->type == PAWN) {
-        if(table[x1][y1]->color == WHITE) {
-            if(x1 == 6) {
-                if(x2 == 4 && y2 == y1) {
-                    if(table[x2][y2] == NULL) {
-                        return true;
-                    }
-                }
-            }
-            if(x2 == x1 - 1 && y2 == y1) {
-                if(table[x2][y2] == NULL) {
-                    return true;
-                }
-            }
-            if(x2 == x1 - 1 && (y2 == y1 + 1 || y2 == y1 - 1)) {
-                if(table[x2][y2] != NULL) {
-                    return true;
-                }
-            }
-        } else {
-            if(x1 == 1) {
-                if(x2 == 3 && y2 == y1) {
-                    if(table[x2][y2] == NULL) {
-                        return true;
-                    }
-                }
-            }
-            if(x2 == x1 + 1 && y2 == y1) {
-                if(table[x2][y2] == NULL) {
-                    return true;
-                }
-            }
-            if(x2 == x1 + 1 && (y2 == y1 + 1 || y2 == y1 - 1)) {
-                if(table[x2][y2] != NULL) {
-                    return true;
-                }
-            }
-        }
-    } else if(table[x1][y1]->type == ROOK) {
-        if(x2 == x1) {
-            if(y2 > y1) {
-                for (int i = y1 + 1; i < y2; i++) {
-                    if(table[x2][i] != NULL) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                for (int i = y1 - 1; i > y2; i--) {
-                    if(table[x2][i] != NULL) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        } else if(y2 == y1) {
-            if(x2 > x1) {
-                for (int i = x1 + 1; i < x2; i++) {
-                    if(table[i][y2] != NULL) {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = x1 - 1; i > x2; i--) {
-                    if(table[i][y2] != NULL) {
-                        return false;
-                    }
-                }
-            }
-        }
-    
-    } else if(table[x1][y1]->type == KNIGHT) {
-        if((x2 == x1 + 2 && y2 == y1 + 1) || (x2 == x1 + 2 && y2 == y1 - 1) || (x2 == x1 - 2 && y2 == y1 + 1) || (x2 == x1 - 2 && y2 == y1 - 1) || (x2 == x1 + 1 && y2 == y1 + 2) || (x2 == x1 + 1 && y2 == y1 - 2) || (x2 == x1 - 1 && y2 == y1 + 2) || (x2 == x1 - 1 && y2 == y1 - 2)) {
-            return true;
-        }
-    } else if(table[x1][y1]->type == BISHOP) {
-        if(x2 > x1 && y2 > y1) {
-            for (int i = 1; i < x2 - x1; i++) {
-                if(table[x1 + i][y1 + i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 > x1 && y2 < y1) {
-            for (int i = 1; i < x2 - x1; i++) {
-                if(table[x1 + i][y1 - i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 < x1 && y2 > y1) {
-            for (int i = 1; i < x1 - x2; i++) {
-                if(table[x1 - i][y1 + i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 < x1 && y2 < y1) {
-            for (int i = 1; i < x1 - x2; i++) {
-                if(table[x1 - i][y1 - i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    } else if(table[x1][y1]->type == QUEEN) {
-        if(x2 == x1) {
-            if(y2 > y1) {
-                for (int i = y1 + 1; i < y2; i++) {
-                    if(table[x2][i] != NULL) {
-                        return false;
-                    }
-                }
-                return true;
-            } else {
-                for (int i = y1 - 1; i > y2; i--) {
-                    if(table[x2][i] != NULL) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        } else if(y2 == y1) {
-            if(x2 > x1) {
-                for (int i = x1 + 1; i < x2; i++) {
-                    if(table[i][y2] != NULL) {
-                        return false;
-                    }
-                }
-            } else {
-                for (int i = x1 - 1; i > x2; i--) {
-                    if(table[i][y2] != NULL) {
-                        return false;
-                    }
-                }
-            }
-        } else if(x2 > x1 && y2 > y1) {
-            for (int i = 1; i < x2 - x1; i++) {
-                if(table[x1 + i][y1 + i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 > x1 && y2 < y1) {
-            for (int i = 1; i < x2 - x1; i++) {
-                if(table[x1 + i][y1 - i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 < x1 && y2 > y1) {
-            for (int i = 1; i < x1 - x2; i++) {
-                if(table[x1 - i][y1 + i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        } else if(x2 < x1 && y2 < y1) {
-            for (int i = 1; i < x1 - x2; i++) {
-                if(table[x1 - i][y1 - i] != NULL) {
-                    return false;
-                }
-            }
-            return true;
-        }
+    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+        return false;
     }
+    switch (((Piece**)table)[x1][y1]->type) {
+        case PAWN:
+            if (((Piece**)table)[x1][y1]->color == BLACK) {
+                if (x2 == x1 + 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                } else if (x2 == x1 + 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+                    return true;
+                } else if (x1 == 1 && x2 == x1 + 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                }
+            } else {
+                if (x2 == x1 - 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                } else if (x2 == x1 - 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+                    return true;
+                } else if (x1 == 6 && x2 == x1 - 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                }
+            }
+            // case for promoting a pawn that reaches the other side of the table and uses the function promote_pawn
+            if (x2 == 0 || x2 == 7) {
+                promote_pawn(table, x2, y2, QUEEN);
+                return true;
+            }
+            break;
+        case BISHOP:
+            if (abs(x2 - x1) == abs(y2 - y1)) {
+                if (x2 > x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 > x1 && y2 < y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        case KNIGHT:
+            if ((abs(x2 - x1) == 2 && abs(y2 - y1) == 1) || (abs(x2 - x1) == 1 && abs(y2 - y1) == 2)) {
+                return true;
+            }
+            break;
+        case KING:
+            if (abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1) {
+                return true;
+            }
+            break;
+        case QUEEN:
+            if (abs(x2 - x1) == abs(y2 - y1)) {
+                if (x2 > x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 > x1 && y2 < y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else if (x2 == x1 || y2 == y1) {
+                if (x2 > x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 == x1 && y2 > y1) {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        case ROOK:
+            if (x2 == x1 || y2 == y1) {
+                if (x2 > x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 == x1 && y2 > y1) {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        }
     return false;
+}
+
+// Implement a function to convert your chess matrix to FEN (Forsyth–Edwards Notation) format and returns the value into a string
+// respecting that patter: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 where the lower case are the white peaces and the upper case are the black peaces
+
+char* fen(void** table) {
+    char* fen = (char*)malloc(100 * sizeof(char));
+    int count = 0;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (((Piece**)table)[i][j] == NULL) {
+                count++;
+            } else {
+                if (count != 0) {
+                    fen[strlen(fen)] = count + '0';
+                    count = 0;
+                }
+                switch (((Piece**)table)[i][j]->type) {
+                case PAWN:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'P';
+                    } else {
+                        fen[strlen(fen)] = 'p';
+                    }
+                    break;
+                case BISHOP:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'B';
+                    } else {
+                        fen[strlen(fen)] = 'b';
+                    }
+                    break;
+                case KNIGHT:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'N';
+                    } else {
+                        fen[strlen(fen)] = 'n';
+                    }
+                    break;
+                case KING:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'K';
+                    } else {
+                        fen[strlen(fen)] = 'k';
+                    }
+                    break;
+                case QUEEN:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'Q';
+                    } else {
+                        fen[strlen(fen)] = 'q';
+                    }
+                    break;
+                case ROOK:
+                    if (((Piece**)table)[i][j]->color == WHITE) {
+                        fen[strlen(fen)] = 'R';
+                    } else {
+                        fen[strlen(fen)] = 'r';
+                    }
+                    break;
+                }
+            }
+        }
+        if (count != 0) {
+            fen[strlen(fen)] = count + '0';
+            count = 0;
+        }
+        if (i != 7) {
+            fen[strlen(fen)] = '/';
+        }
+    }
+    fen[strlen(fen)] = ' ';
+    fen[strlen(fen)] = 'w';
+    fen[strlen(fen)] = ' ';
+    fen[strlen(fen)] = 'K';
+    fen[strlen(fen)] = 'Q';
+    fen[strlen(fen)] = 'k';
+    fen[strlen(fen)] = 'q';
+    fen[strlen(fen)] = ' ';
+    fen[strlen(fen)] = '-';
+    fen[strlen(fen)] = ' ';
+    fen[strlen(fen)] = '0';
+    fen[strlen(fen)] = ' ';
+    fen[strlen(fen)] = '1';
+    return fen;
+}
+
+// Implement a function that moves a piece from a position to another position. the position are represented by a string like "a1" or "h8". the positions are given as arguments. it checks if the move is valid
+
+void move_piece(void** table, int from_x, int from_y, int to_x, int to_y) {
+    if (check_valid(table, from_x, from_y, to_x, to_y)) {
+        ((Piece**)table)[to_x][to_y] = ((Piece**)table)[from_x][from_y];
+        ((Piece**)table)[from_x][from_y] = NULL;
+    }
 }
