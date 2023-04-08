@@ -3,8 +3,8 @@ CFLAGS=-Wall -Wextra -pedantic -std=c99
 DEPS=table.h
 OBJ=table.o main.o
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+%.so: %.c $(DEPS)
+	$(CC) -c -shared -o $@ $< $(CFLAGS)
 
 main: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
