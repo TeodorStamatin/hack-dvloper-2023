@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Piece from './Piece.jsx';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 import { getNameByPos, getPosByName } from '../pieces/utils.js';
 
@@ -51,9 +51,9 @@ function Chessboard(props) {
     });
 
     function performMove(i, j) {
-        props.setHistory([{pieceType: selectedPiece.type, from: selectedPiece.position, to: getNameByPos(i, j)}, ...props.history]);
         if (selectedPiece === null) return;
         if (chessboard[i][j] !== null) return;
+        props.setHistory([{pieceType: selectedPiece.type, from: selectedPiece.position, to: getNameByPos(i, j)}, ...props.history]);
         let [row, col] = getPosByName(selectedPiece.position);
         chessboard[row][col] = null;
         chessboard[i][j] = selectedPiece;

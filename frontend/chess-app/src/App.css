@@ -6,6 +6,19 @@
 
 .App {
   text-align: center;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.App-header {
+  padding: 2.5em;
+}
+
+.App-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 body {
@@ -14,6 +27,7 @@ body {
 }
 
 .piece {
+  border: 1px solid black;
   display: inline-block;
   width: 50px;
   height: 50px;
@@ -29,16 +43,15 @@ body {
 
 .chessBoard {
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 5em;
+  /* padding: 5em; */
+  border: 5px solid black;
 }
 
 .row {
   display: flex;
-  width: 100%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -51,4 +64,79 @@ body {
 
 .selected {
   border: 3px solid orange;
+}
+
+.chatBox {
+  width: 300px;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em;
+}
+
+.messageBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  width: 200px;
+  padding: 0.5em;
+}
+
+.chatBox input {
+  margin: 0.5em;
+  color: white;
+  padding: 0.5em;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chatBox input:focus {
+  outline: none;
+}
+
+.chatBox input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.myMessage {
+  align-self: flex-end;
+}
+
+.otherMessage {
+  align-self: flex-start;
+}
+
+.historyBox {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.historyImg {
+  width: 20px;
+  height: 20px;
+}
+
+.historyEntry {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 5px;
 }
