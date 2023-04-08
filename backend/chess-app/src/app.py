@@ -96,9 +96,31 @@ def index():
 
 @app.route("/api/createGame", methods = ['GET'])
 def createGame():
-    chessboard = POINTER(Piece)()
-    print(bool(chessboard))
-    return jsonify({})
+    # chessSDK.init_matrix.restype = POINTER(POINTER(Piece))
+    # chessboard = chessSDK.init_matrix()
+    chessboard = []
+    with open("input.txt", "r") as infile:
+        for i in range(0, 8):
+            chessboard.append([])
+            for _ in range(0, 8):
+                chessboard[i].append(None)
+        for line in infile:
+            (piece, i, j) = line.split(",")
+            print(piece, i, j)
+            print(chessboard)
+            chessboard[int(i)][int(j)] = piece
+
+    pieces = []
+    for i in range(0, 8):
+        for j in range(0, 8):
+            if chessboard[i][j] is not None:
+                position = chr(ord('A') + j) + str(i + 1)
+                pieces.append({
+                    "position": position,
+                    "type": chessboard[i][j]
+                })
+
+    return jsonify(pieces)
 
 if __name__ == "__main__":
     create_users_table()
