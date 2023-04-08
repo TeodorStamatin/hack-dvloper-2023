@@ -36,3 +36,4 @@ int can_castle(Piece** table, int x, int y);
 int not_good_position(Piece** table, int x, int y);
 Piece **castling(Piece **table, int x, int y);
 
+
