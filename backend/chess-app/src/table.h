@@ -24,15 +24,15 @@ typedef struct piece {
 } *Piece;
 
 
-void** init_matrix();
-void print_matrix(void** table);
-void** free_matrix(void** table);
-int check_valid(void** table, int x1, int y1, int x2, int y2);
-char* fen(void** table);
-void** move_piece(void** table, int x1, int y1, int x2, int y2);
-int is_king_in_checkmate(void** table, piece_color_t color);
-int is_king_in_check(void** table, piece_color_t color);
-int can_castle(void** table, int x, int y);
-int not_good_position(void** table, int x, int y);
-void **castling(void **table, int x, int y);
+Piece** init_matrix();
+void print_matrix(Piece** table);
+void free_matrix(Piece** table);
+int check_valid(Piece** table, int x1, int y1, int x2, int y2);
+char* fen(Piece** table);
+Piece** move_piece(Piece** table, int x1, int y1, int x2, int y2);
+int is_king_in_checkmate(Piece** table, piece_color_t color);
+int is_king_in_check(Piece** table, piece_color_t color);
+int can_castle(Piece** table, int x, int y);
+int not_good_position(Piece** table, int x, int y);
+Piece **castling(Piece **table, int x, int y);
 
