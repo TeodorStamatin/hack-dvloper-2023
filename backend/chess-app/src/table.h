@@ -25,7 +25,7 @@ typedef struct piece {
 
 
 Piece** init_matrix();
-void print_matrix(Piece** table);
+void print_matrix(Piece** table, FILE* out);
 void free_matrix(Piece** table);
 int check_valid(Piece** table, int x1, int y1, int x2, int y2);
 char* fen(Piece** table);
