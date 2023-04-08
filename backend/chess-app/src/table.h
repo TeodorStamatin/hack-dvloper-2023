@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 
 typedef enum _piece_color {
     BLACK,
@@ -22,7 +23,8 @@ typedef struct piece {
 } *Piece;
 
 
-Piece** init_matrix();
-void print_matrix(Piece** table);
-Piece** free_matrix(Piece** table);
+void** init_matrix();
+void print_matrix(void** table);
+void** free_matrix(void** table);
+bool check_valid(Piece** table, int x1, int y1, int x2, int y2);
 
