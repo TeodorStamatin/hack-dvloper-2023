@@ -9,7 +9,8 @@ FILE *popen(const char *command, const char *type);
 int pclose(FILE *stream);
 
 int main() {
-    void** table = init_matrix();
+    Piece** table;
+    table = init_matrix();
     // starts stockfish
     FILE *fp = popen("../basa/Stockfish/src/stockfish", "w");
     // sends fen to stockfish
@@ -67,8 +68,8 @@ int main() {
         // Move piece
         table = move_piece(table, from_y, from_x, to_y, to_x);
         print_matrix(table);
+        printf("COAIE EL E: %s", str);
     }
-
     pclose(fp);
     free_matrix(table);
     return 0;

@@ -3,42 +3,100 @@
 
 /* this function creates a matrix that represents the chess table*/
 
-void** init_matrix() {
-    void **table = (void**)malloc(8 * sizeof(void*));
+Piece** init_matrix() {
+    Piece** table = (Piece**)malloc(8 * sizeof(Piece*));
     for (int i = 0; i < 8; i++) {
-        table[i] = (void*)malloc(8 * sizeof(void*));
+        table[i] = (Piece*)malloc(8 * sizeof(Piece));
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (i == 1 || i == 6) {
-                Piece piece = malloc(sizeof(struct piece));
-                piece->color = (i == 1) ? BLACK : WHITE;
-                piece->type = PAWN;
-                ((Piece**)table)[i][j] = piece;
-            } else if (i == 0 || i == 7) {
-                Piece piece = (Piece)malloc(sizeof(struct piece));
-                piece->color = (i == 0) ? BLACK : WHITE;
-                if (j == 0 || j == 7) {
-                    piece->type = ROOK;
-                } else if (j == 1 || j == 6) {
-                    piece->type = KNIGHT;
-                } else if (j == 2 || j == 5) {
-                    piece->type = BISHOP;
-                } else if (j == 3) {
-                    piece->type = QUEEN;
-                } else {
-                    piece->type = KING;
-                }
-                ((Piece**)table)[i][j] = piece;
-            } else {
-                ((Piece**)table)[i][j] = NULL;
-            }
+            table[i][j] = NULL;
         }
     }
+    for (int i = 0; i < 8; i++) {
+        table[1][i] = (Piece)malloc(sizeof(struct piece));
+        table[1][i]->color = BLACK;
+        table[1][i]->type = PAWN;
+        table[1][i]->hasMoved = false;
+        table[6][i] = (Piece)malloc(sizeof(struct piece));
+        table[6][i]->color = WHITE;
+        table[6][i]->type = PAWN;
+        table[6][i]->hasMoved = false;
+    }
+    for(int i = 0; i < 8; i += 7) {
+        table[0][i] = (Piece)malloc(sizeof(struct piece));
+        table[0][i]->color = BLACK;
+        table[0][i]->type = ROOK;
+        table[0][i]->hasMoved = false;
+        table[0][i + 7] = (Piece)malloc(sizeof(struct piece));
+        table[0][i + 7]->color = BLACK;
+        table[0][i + 7]->type = ROOK;
+        table[0][i + 7]->hasMoved = false;
+        table[7][i] = (Piece)malloc(sizeof(struct piece));
+        table[7][i]->color = WHITE;
+        table[7][i]->type = ROOK;
+        table[7][i]->hasMoved = false;
+        table[7][i + 7] = (Piece)malloc(sizeof(struct piece));
+        table[7][i + 7]->color = WHITE;
+        table[7][i + 7]->type = ROOK;
+        table[7][i + 7]->hasMoved = false;
+    }
+    for(int i = 1; i < 7; i += 5) {
+        table[0][i] = (Piece)malloc(sizeof(struct piece));
+        table[0][i]->color = BLACK;
+        table[0][i]->type = KNIGHT;
+        table[0][i]->hasMoved = false;
+        table[0][i + 5] = (Piece)malloc(sizeof(struct piece));
+        table[0][i + 5]->color = BLACK;
+        table[0][i + 5]->type = KNIGHT;
+        table[0][i + 5]->hasMoved = false;
+        table[7][i] = (Piece)malloc(sizeof(struct piece));
+        table[7][i]->color = WHITE;
+        table[7][i]->type = KNIGHT;
+        table[7][i]->hasMoved = false;
+        table[7][i + 5] = (Piece)malloc(sizeof(struct piece));
+        table[7][i + 5]->color = WHITE;
+        table[7][i + 5]->type = KNIGHT;
+        table[7][i + 5]->hasMoved = false;
+    }
+    for(int i = 2; i < 6; i += 3) {
+        table[0][i] = (Piece)malloc(sizeof(struct piece));
+        table[0][i]->color = BLACK;
+        table[0][i]->type = BISHOP;
+        table[0][i]->hasMoved = false;
+        table[0][i + 3] = (Piece)malloc(sizeof(struct piece));
+        table[0][i + 3]->color = BLACK;
+        table[0][i + 3]->type = BISHOP;
+        table[0][i + 3]->hasMoved = false;
+        table[7][i] = (Piece)malloc(sizeof(struct piece));
+        table[7][i]->color = WHITE;
+        table[7][i]->type = BISHOP;
+        table[7][i]->hasMoved = false;
+        table[7][i + 3] = (Piece)malloc(sizeof(struct piece));
+        table[7][i + 3]->color = WHITE;
+        table[7][i + 3]->type = BISHOP;
+        table[7][i + 3]->hasMoved = false;
+    }
+    table[0][3] = (Piece)malloc(sizeof(struct piece));
+    table[0][3]->color = BLACK;
+    table[0][3]->type = QUEEN;
+    table[0][3]->hasMoved = false;
+    table[0][4] = (Piece)malloc(sizeof(struct piece));
+    table[0][4]->color = BLACK;
+    table[0][4]->type = KING;
+    table[0][4]->hasMoved = false;
+    table[7][3] = (Piece)malloc(sizeof(struct piece));
+    table[7][3]->color = WHITE;
+    table[7][3]->type = QUEEN;
+    table[7][3]->hasMoved = false;
+    table[7][4] = (Piece)malloc(sizeof(struct piece));
+    table[7][4]->color = WHITE;
+    table[7][4]->type = KING;
+    table[7][4]->hasMoved = false;
     return table;
 }
 
-void print_matrix(void** table) {
+void print_matrix(Piece** table) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if (((Piece**)table)[i][j] != NULL) {
@@ -71,24 +129,24 @@ void print_matrix(void** table) {
     }
 }
 
-void** free_matrix(void** table) {
+void free_matrix(Piece** table) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (((Piece**)table)[i][j] != NULL) {
-                free(((Piece**)table)[i][j]);
+            if (table[i][j] != NULL) {
+                free(table[i][j]);
             }
         }
         free(table[i]);
     }
     free(table);
-    return NULL;
+    return;
 }
 
-void** promote_pawn(void** table, int x, int y, piece_type_t type) {
-    if (((Piece**)table)[x][y] != NULL && ((Piece**)table)[x][y]->type == PAWN) {
-        ((Piece**)table)[x][y]->type = type;
+void promote_pawn(void*** table, int x, int y, piece_type_t type) {
+    if ((*((Piece***)table))[x][y] != NULL && ((Piece**)table)[x][y]->type == PAWN) {
+        (*((Piece***)table))[x][y]->type = type;
     }
-    return table;
+    return;
 }
 
 /*function that checks if chess move is valid. this means you should check if the position where you move is NULL, and if it is not,
@@ -98,7 +156,7 @@ ONLY table->type->knight can jump over other piece. other pieces cand go to the 
 position on the table.*/
 
 
-int check_valid(void** table, int x1, int y1, int x2, int y2) {
+int check_valid(Piece** table, int x1, int y1, int x2, int y2) {
     // check if the position is on the table
     if (x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7 || y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) {
         return 0;
@@ -112,12 +170,13 @@ int check_valid(void** table, int x1, int y1, int x2, int y2) {
     if (x1 == x2 && y1 == y2) {
         return 0;
     }
+    if (is_king_in_check(table, ((Piece**)table)[x1][y1]->color)) {
+        goto stuck;
+    }
     switch (((Piece**)table)[x1][y1]->type) {
         // the pawn can move only one position forward, and if it is the first move, it can move two positions forward
+        // the pawn can take a piece only if it is in the diagonal position
         case PAWN:
-            if (x2 == 0 || x2 == 7) {
-                return 1;
-            }
             if (((Piece**)table)[x1][y1]->color == BLACK) {
                 if (x2 == x1 + 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
                     return 1;
@@ -135,7 +194,7 @@ int check_valid(void** table, int x1, int y1, int x2, int y2) {
                     return 1;
                 }
             }
-            break;
+            return 0;
         case BISHOP:
             if (abs(x2 - x1) == abs(y2 - y1)) {
                 if (x2 > x1 && y2 > y1) {
@@ -171,6 +230,7 @@ int check_valid(void** table, int x1, int y1, int x2, int y2) {
                 return 1;
             }
             break;
+        stuck:
         case KING:
             if (can_castle(table, x1, y1)) {
                 table = castling(table, x1, y1);
@@ -181,14 +241,8 @@ int check_valid(void** table, int x1, int y1, int x2, int y2) {
                 return 1;
             }
             // check if the king can't be taken by other color chess pieces if he moves to the wanted position
-            if (x2 == x1 && y2 == y1 + 1) {
-                if (((Piece**)table)[x2][y2 + 1] != NULL && ((Piece**)table)[x2][y2 + 1]->type == ROOK && ((Piece**)table)[x2][y2 + 1]->color != ((Piece**)table)[x1][y1]->color) {
-                    return 0;
-                }
-            } else if (x2 == x1 && y2 == y1 - 1) {
-                if (((Piece**)table)[x2][y2 - 2] != NULL && ((Piece**)table)[x2][y2 - 2]->type == ROOK && ((Piece**)table)[x2][y2 - 2]->color != ((Piece**)table)[x1][y1]->color) {
-                    return 0;
-                }
+            if (is_king_in_check(table, ((Piece**)table)[x1][y1]->color)) {
+                return 0;
             }
             break;
         case QUEEN:
@@ -285,7 +339,7 @@ int check_valid(void** table, int x1, int y1, int x2, int y2) {
 // Implement a function to convert your chess matrix to FEN (Forsyth–Edwards Notation) format and returns the value into a string
 // respecting that patter: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 where the lower case are the white peaces and the upper case are the black peaces
 
-char* fen(void** table) {
+char* fen(Piece** table) {
     char* fen = (char*)malloc(100 * sizeof(char));
     int count = 0;
     for (int i = 0; i < 8; i++) {
@@ -369,16 +423,16 @@ char* fen(void** table) {
 
 // Implement a function that moves a piece from a position to another position. the position are represented by a string like "a1" or "h8". the positions are given as arguments. it checks if the move is valid
 // if the move is valid it returns the new table with the pieces moved
-void** move_piece(void** table, int from_x, int from_y, int to_x, int to_y) {
+Piece** move_piece(Piece** table, int from_x, int from_y, int to_x, int to_y) {
     if (check_valid(table, from_x, from_y, to_x, to_y)) {
-        ((Piece**)table)[to_x][to_y] = ((Piece**)table)[from_x][from_y];
-        ((Piece**)table)[from_x][from_y] = NULL;
+        table[to_x][to_y] = table[from_x][from_y];
+        table[from_x][from_y] = NULL;
     }
     return table;
 }
 
 // check that king can't move anymore, check all the cases around the king and if there is a piece that can kill the king, return 1, else return 0
-int is_king_in_checkmate(void** table, piece_color_t color) {
+int is_king_in_checkmate(Piece** table, piece_color_t color) {
     int king_x = -1, king_y = -1;
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
@@ -403,7 +457,7 @@ int is_king_in_checkmate(void** table, piece_color_t color) {
                         for (int to_y = 0; to_y < 8; to_y++) {
                             if (check_valid(table, from_x, from_y, to_x, to_y)) {
                                 // Dacă mutarea este validă, încercăm să o efectuăm și verificăm dacă regele mai este în șah
-                                void** new_table = move_piece(table, from_x, from_y, to_x, to_y);
+                                Piece** new_table = move_piece(table, from_x, from_y, to_x, to_y);
                                 bool king_in_check = is_king_in_check(new_table, color);
                                 free_matrix(new_table);
                                 if (!king_in_check) {
@@ -423,7 +477,7 @@ int is_king_in_checkmate(void** table, piece_color_t color) {
 }
 
 // check if the king is in check, if it is, return 1, else return 0
-int is_king_in_check(void** table, piece_color_t color) {
+int is_king_in_check(Piece** table, piece_color_t color) {
     int king_x = -1, king_y = -1;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -504,7 +558,7 @@ int is_king_in_check(void** table, piece_color_t color) {
 }
 
 // function that check if the specified position is a check
-int not_good_position(void** table, int x, int y) {
+int not_good_position(Piece** table, int x, int y) {
     // Verificăm dacă regele este în șah de către o piesă de tip pion
     for (int i = -1; i <= 1; i += 2) {
         if (x + 1 < 8 && y + i >= 0 && y + i < 8 && ((Piece**)table)[x + 1][y + i] != NULL && ((Piece**)table)[x + 1][y + i]->type == PAWN && ((Piece**)table)[x + 1][y + i]->color != ((Piece**)table)[x][y]->color) {
@@ -576,7 +630,7 @@ int not_good_position(void** table, int x, int y) {
 }
 // function that castel the king if the way is open and the king is not in check
 
-void** castle(void** table, int x1, int y1, int x2, int y2) {
+Piece** castle(Piece** table, int x1, int y1, int x2, int y2) {
     // Verificăm dacă regele este în șah
     if (is_king_in_check(table, ((Piece**)table)[x1][y1]->color)) {
         return table;
@@ -707,7 +761,7 @@ void** castle(void** table, int x1, int y1, int x2, int y2) {
 }
 
 // function that checks if the king can castle either to the left or to the right based on the fact that the king is in check or the king way to the is blocked by other pieces
-int can_castle(void **table, int x, int y) {
+int can_castle(Piece **table, int x, int y) {
     // check if the king is in check
     if (not_good_position(table, x, y)) {
         return 0;
@@ -748,18 +802,18 @@ int can_castle(void **table, int x, int y) {
 }
 
 // we know that the king can castles, so we do a function that does the castling 
-void **castling(void **table, int x, int y) {
+Piece **castling(Piece **table, int x, int y) {
     // check if the king can castles to the left
     if (can_castle(table, x, y) && y == 4 && x == 0) {
         // move the king to the left
-        ((Piece**)table)[x][y - 2] = ((Piece**)table)[x][y];
-        ((Piece**)table)[x][y] = NULL;
+        table[x][y - 2] = ((Piece**)table)[x][y];
+        table[x][y] = NULL;
         // move the rook to the left
-        ((Piece**)table)[x][y - 1] = ((Piece**)table)[x][y - 4];
-        ((Piece**)table)[x][y - 4] = NULL;
+        table[x][y - 1] = ((Piece**)table)[x][y - 4];
+        table[x][y - 4] = NULL;
         // mark that the king and the rook have moved
-        ((Piece**)table)[x][y - 2]->hasMoved = 1;
-        ((Piece**)table)[x][y - 1]->hasMoved = 1;
+        table[x][y - 2]->hasMoved = 1;
+        table[x][y - 1]->hasMoved = 1;
         return table;
     }
     // check if the king can castles to the right
