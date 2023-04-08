@@ -96,7 +96,196 @@ you should check if your chess piece has the right movement to go there, and if 
 color. lastly, you should check that if you move the wanted piece, your king cant be taken by other color chess pieces. NOTE THAT 
 ONLY table->type->knight can jump over other piece. other pieces cand go to the wanted position if they have to go through an occupied
 position on the table.*/
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+bool check_valid(void** table, int x1, int y1, int x2, int y2) {
+    if (x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7 || y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) {
+        return false;
+    }
+    if (((Piece**)table)[x1][y1] == NULL) {
+        return false;
+    }
+    if (((Piece**)table)[x2][y2] != NULL && ((Piece**)table)[x2][y2]->color == ((Piece**)table)[x1][y1]->color) {
+        return false;
+    }
+    switch (((Piece**)table)[x1][y1]->type) {
+        case PAWN:
+            if (((Piece**)table)[x1][y1]->color == BLACK) {
+                if (x2 == x1 + 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                } else if (x2 == x1 + 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+                    return true;
+                } else if (x1 == 1 && x2 == x1 + 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                }
+            } else {
+                if (x2 == x1 - 1 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                } else if (x2 == x1 - 1 && (y2 == y1 + 1 || y2 == y1 - 1) && ((Piece**)table)[x2][y2] != NULL) {
+                    return true;
+                } else if (x1 == 6 && x2 == x1 - 2 && y2 == y1 && ((Piece**)table)[x2][y2] == NULL) {
+                    return true;
+                }
+            }
+            break;
+        case BISHOP:
+            if (abs(x2 - x1) == abs(y2 - y1)) {
+                if (x2 > x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 > x1 && y2 < y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        case KNIGHT:
+            if ((abs(x2 - x1) == 2 && abs(y2 - y1) == 1) || (abs(x2 - x1) == 1 && abs(y2 - y1) == 2)) {
+                return true;
+            }
+            break;
+        case KING:
+            if (abs(x2 - x1) <= 1 && abs(y2 - y1) <= 1) {
+                return true;
+            }
+            break;
+        case QUEEN:
+            if (abs(x2 - x1) == abs(y2 - y1)) {
+                if (x2 > x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 > x1 && y2 < y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 > y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else if (x2 == x1 || y2 == y1) {
+                if (x2 > x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 == x1 && y2 > y1) {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        case ROOK:
+            if (x2 == x1 || y2 == y1) {
+                if (x2 > x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 + i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 < x1 && y2 == y1) {
+                    for (int i = 1; i < abs(x2 - x1); i++) {
+                        if (((Piece**)table)[x1 - i][y1] != NULL) {
+                            return false;
+                        }
+                    }
+                } else if (x2 == x1 && y2 > y1) {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 + i] != NULL) {
+                            return false;
+                        }
+                    }
+                } else {
+                    for (int i = 1; i < abs(y2 - y1); i++) {
+                        if (((Piece**)table)[x1][y1 - i] != NULL) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            break;
+        }
+    return false;
+}
+
+/* the following function should check if the game is ended or not; the chess game is ended if the king can be taken from the oppsite team, even if it moves one position around him*/
+bool isGameEnded(void* table) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (((Piece**)table)[i][j] != NULL) {
+                if (((Piece**)table)[i][j]->type == KING) {
+                    for (int k = 0; k < 8; k++) {
+                        for (int l = 0; l < 8; l++) {
+                            if (((Piece**)table)[k][l] != NULL) {
+                                if (((Piece**)table)[k][l]->color != ((Piece**)table)[i][j]->color) {
+                                    if (check_valid(table, k, l, i, j)) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+=======
+>>>>>>> refs/remotes/origin/main
 int check_valid(void** table, int x1, int y1, int x2, int y2) {
     // check if the position is on the table
     if (x1 < 0 || x1 > 7 || x2 < 0 || x2 > 7 || y1 < 0 || y1 > 7 || y2 < 0 || y2 > 7) {
@@ -501,6 +690,7 @@ int is_king_in_check(void** table, piece_color_t color) {
     }
     return 0;
 }
+<<<<<<< HEAD
 
 // function that check if the specified position is a check
 int not_good_position(void** table, int x, int y) {
@@ -776,3 +966,6 @@ void **castling(void **table, int x, int y) {
     }
     return table;
 }
+=======
+>>>>>>> 6cc41c473ca818dcf9766c13e3029e15e0af4142
+>>>>>>> refs/remotes/origin/main

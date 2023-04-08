@@ -27,13 +27,20 @@ typedef struct piece {
 void** init_matrix();
 void print_matrix(void** table);
 void** free_matrix(void** table);
+<<<<<<< HEAD
+bool check_valid(void** table, int x1, int y1, int x2, int y2);
+=======
 int check_valid(void** table, int x1, int y1, int x2, int y2);
 char* fen(void** table);
 void** move_piece(void** table, int x1, int y1, int x2, int y2);
 int is_king_in_checkmate(void** table, piece_color_t color);
 int is_king_in_check(void** table, piece_color_t color);
+<<<<<<< HEAD
 int can_castle(void** table, int x, int y);
 int not_good_position(void** table, int x, int y);
 void **castling(void **table, int x, int y);
 
+=======
+>>>>>>> 6cc41c473ca818dcf9766c13e3029e15e0af4142
+>>>>>>> refs/remotes/origin/main
 

@@ -4,7 +4,7 @@ DEPS=table.h
 OBJ=table.o main.o
 
 %.o: %.c $(DEPS)
-	$(CC) -c -shared -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 main: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)

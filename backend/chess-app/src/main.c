@@ -10,6 +10,10 @@ int pclose(FILE *stream);
 
 int main() {
     void** table = init_matrix();
+<<<<<<< HEAD
+    print_matrix(table);
+    printf("\n%d\n", check_valid(table, 0, 1, 2, 0));
+=======
     // starts stockfish
     FILE *fp = popen("../basa/Stockfish/src/stockfish", "w");
     // sends fen to stockfish
@@ -71,5 +75,6 @@ int main() {
 
     pclose(fp);
     free_matrix(table);
+>>>>>>> 6cc41c473ca818dcf9766c13e3029e15e0af4142
     return 0;
 }
