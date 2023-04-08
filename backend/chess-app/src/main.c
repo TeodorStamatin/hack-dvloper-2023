@@ -14,9 +14,6 @@ int main() {
     FILE *fp = popen("../basa/Stockfish/src/stockfish", "w");
     // sends fen to stockfish
     while(!is_king_in_checkmate(table, WHITE) && !is_king_in_checkmate(table, BLACK)) {
-        // printf("Your move: ");
-        // char move[6];
-        // scanf("%s", move);
         char* str = fen(table);
         fprintf(fp, "position fen %s\n", str);
         // asks stockfish to calculate best move
@@ -35,15 +32,21 @@ int main() {
         int from_y = 7 - (best_move[1] - '1');
         int to_x =  (best_move[2] - 'a');
         int to_y = 7 - (best_move[3] - '1');
+        table = move_piece(table, from_y, from_x, to_y, to_x);
+        // print_matrix(table);
+
+        // printf("Your move: ");
+        // char move[6];
+        // scanf("%s", move);
         // while(!check_valid(table, from_y, from_x, to_y, to_x)) {
         //     printf("Invalid move, try again: ");
-        //     scanf("%s", move);
-        //     from_x = (move[0] - 'a');
-        //     from_y = 7 - (move[1] - '1');
-        //     to_x =  (move[2] - 'a');
-        //     to_y = 7 - (move[3] - '1');
+        //     scanf("%s", best_move);
+        //     from_x = (best_move[0] - 'a');
+        //     from_y = (best_move[1] - '1');
+        //     to_x =  (best_move[2] - 'a');
+        //     to_y = (best_move[3] - '1');
         // }
-        table = move_piece(table, from_y, from_x, to_y, to_x);
+        // table = move_piece(table, from_y, from_x, to_y, to_x);
         str = fen(table);
         fprintf(fp, "position fen %s\n", str);
         // asks stockfish to calculate best move
