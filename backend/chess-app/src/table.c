@@ -1,100 +1,100 @@
 #include "table.h"
 
-/* this function creates a matrix that represents the chess table*/
+/* this function creates a matrix that represents the chess table in a generic type of date
+be aware to dereference the void** */
 
-Piece** init_matrix() {
-    Piece** table = (Piece**)malloc(8 * sizeof(Piece*));
+void** init_matrix() {
+    void **table = (void**)malloc(8 * sizeof(void*));
     for (int i = 0; i < 8; i++) {
-        table[i] = (Piece*)malloc(8 * sizeof(Piece));
+        table[i] = (void*)malloc(8 * sizeof(void*));
+    }
+    for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            table[i][j] = NULL;
-        }
-    }
-    for (int i = 0; i < 8; i++) {
-        table[1][i] = (Piece)malloc(sizeof(struct piece));
-        table[1][i]->color = BLACK;
-        table[1][i]->type = PAWN;
-        table[6][i] = (Piece)malloc(sizeof(struct piece));
-        table[6][i]->color = WHITE;
-        table[6][i]->type = PAWN;
-    }
-    for (int i = 0; i < 8; i++) {
-        table[0][i] = (Piece)malloc(sizeof(struct piece));
-        table[0][i]->color = BLACK;
-        if(i == 0 || i == 7) {
-            table[0][i]->type = ROOK;
-        } else if(i == 1 || i == 6) {
-            table[0][i]->type = KNIGHT;
-        } else if(i == 2 || i == 5) {
-            table[0][i]->type = BISHOP;
-        } else if(i == 3) {
-            table[0][i]->type = QUEEN;
-        } else if(i == 4) {
-            table[0][i]->type = KING;
-        }
-    }
-    for (int i = 0; i < 8; i++) {
-        table[7][i] = (Piece)malloc(sizeof(struct piece));
-        table[7][i]->color = WHITE;
-        if(i == 0 || i == 7) {
-            table[7][i]->type = ROOK;
-        } else if(i == 1 || i == 6) {
-            table[7][i]->type = KNIGHT;
-        } else if(i == 2 || i == 5) {
-            table[7][i]->type = BISHOP;
-        } else if(i == 3) {
-            table[7][i]->type = QUEEN;
-        } else if(i == 4) {
-            table[7][i]->type = KING;
+            if (i == 1 || i == 6) {
+                Piece piece = malloc(sizeof(struct piece));
+                piece->color = (i == 1) ? BLACK : WHITE;
+                piece->type = PAWN;
+                ((Piece**)table)[i][j] = piece;
+            } else if (i == 0 || i == 7) {
+                Piece piece = (Piece)malloc(sizeof(struct piece));
+                piece->color = (i == 0) ? BLACK : WHITE;
+                if (j == 0 || j == 7) {
+                    piece->type = ROOK;
+                } else if (j == 1 || j == 6) {
+                    piece->type = KNIGHT;
+                } else if (j == 2 || j == 5) {
+                    piece->type = BISHOP;
+                } else if (j == 3) {
+                    piece->type = QUEEN;
+                } else {
+                    piece->type = KING;
+                }
+                ((Piece**)table)[i][j] = piece;
+            } else {
+                ((Piece**)table)[i][j] = NULL;
+            }
         }
     }
     return table;
 }
 
-
-/*  this function prints the chess table stored in the matrix*/
-void print_matrix(Piece** table) {
+/*  this function prints the chess table with the piece and it's color stored in the matrix*/
+void print_matrix(void** table) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            if (table[i][j] == NULL) {
-                printf("  ");
+            if (((Piece**)table)[i][j] != NULL) {
+                printf("%c", (((Piece**)table)[i][j]->color == BLACK) ? 'B' : 'W');
+                switch (((Piece**)table)[i][j]->type) {
+                    case PAWN:
+                        printf("P ");
+                        break;
+                    case BISHOP:
+                        printf("B ");
+                        break;
+                    case KNIGHT:
+                        printf("N ");
+                        break;
+                    case KING:
+                        printf("K ");
+                        break;
+                    case QUEEN:
+                        printf("Q ");
+                        break;
+                    case ROOK:
+                        printf("R ");
+                        break;
+                }
             } else {
-                if ((table[i][j])->color == BLACK) {
-                    printf("B");
-                } else {
-                    printf("W");
-                }
-                if ((table[i][j])->type == PAWN) {
-                    printf("P");
-                } else if ((table[i][j])->type == ROOK) {
-                    printf("R");
-                } else if ((table[i][j])->type == KNIGHT) {
-                    printf("N");
-                } else if ((table[i][j])->type == BISHOP) {
-                    printf("B");
-                } else if ((table[i][j])->type == QUEEN) {
-                    printf("Q");
-                } else {
-                    printf("K");
-                }
+                printf("  ");
             }
-            printf(" ");
         }
         printf("\n");
     }
 }
 
-/* function that moves a pawn*/ 
-
-Piece** free_matrix(Piece** table) {
+void** free_matrix(void** table) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            free(table[i][j]);
+            if (((Piece**)table)[i][j] != NULL) {
+                free(((Piece**)table)[i][j]);
+            }
         }
         free(table[i]);
     }
     free(table);
-    table = NULL;
+    return NULL;
+}
+
+Piece** promote_pawn(Piece** table, int x, int y, piece_type_t type) {
+    table[x][y]->type = type;
     return table;
 }
 
+Piece** en_passant(Piece** table, int x, int y, int x2, int y2) {
+    if (table[x][y]->type == PAWN && table[x2][y2] == NULL) {
+        free(table[x2][y2]);
+        table[x2][y2] = table[x][y];
+        table[x][y] = NULL;
+    }
+    return table;
+}

@@ -22,7 +22,7 @@ typedef struct piece {
 } *Piece;
 
 
-Piece** init_matrix();
-void print_matrix(Piece** table);
-Piece** free_matrix(Piece** table);
+void** init_matrix();
+void print_matrix(void** table);
+void** free_matrix(void** table);
 
