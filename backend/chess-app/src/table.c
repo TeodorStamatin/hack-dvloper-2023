@@ -1,36 +1,57 @@
 #include "table.h"
 
-Piece** init_matrix() {
-    Piece** table = calloc(8, sizeof(Piece**));
-    for (int i = 0; i < 8; i++) {
-        table[i] = calloc(8, sizeof(Piece*));
-        for(int j = 0; j < 8; j++) {
-            table[i][j] = malloc(sizeof(struct piece));
-            if (i < 2) {
-                (table[i][j])->color = BLACK;
+/* this function creates a matrix that represents the chess table*/
 
-            } else if (i > 5) {
-               (table[i][j])->color = WHITE;
-            } else {
-                (table[i][j]) = NULL;
-            }
-            if (i == 1 || i == 6) {
-               (table[i][j])->type = PAWN;
-            } else if (j == 0 || j == 7) {
-                (table[i][j])->type = ROOK;
-            } else if (j == 1 || j == 6) {
-                (table[i][j])->type = KNIGHT;
-            } else if (j == 2 || j == 5) {
-                (table[i][j])->type = BISHOP;
-            } else if (j == 3) {
-                (table[i][j])->type = QUEEN;
-            } else {
-                (table[i][j])->type = KING;
-            }
+Piece** init_matrix() {
+    Piece** table = (Piece**)malloc(8 * sizeof(Piece*));
+    for (int i = 0; i < 8; i++) {
+        table[i] = (Piece*)malloc(8 * sizeof(Piece));
+        for (int j = 0; j < 8; j++) {
+            table[i][j] = NULL;
+        }
+    }
+    for (int i = 0; i < 8; i++) {
+        table[1][i] = (Piece)malloc(sizeof(struct piece));
+        table[1][i]->color = BLACK;
+        table[1][i]->type = PAWN;
+        table[6][i] = (Piece)malloc(sizeof(struct piece));
+        table[6][i]->color = WHITE;
+        table[6][i]->type = PAWN;
+    }
+    for (int i = 0; i < 8; i++) {
+        table[0][i] = (Piece)malloc(sizeof(struct piece));
+        table[0][i]->color = BLACK;
+        if(i == 0 || i == 7) {
+            table[0][i]->type = ROOK;
+        } else if(i == 1 || i == 6) {
+            table[0][i]->type = KNIGHT;
+        } else if(i == 2 || i == 5) {
+            table[0][i]->type = BISHOP;
+        } else if(i == 3) {
+            table[0][i]->type = QUEEN;
+        } else if(i == 4) {
+            table[0][i]->type = KING;
+        }
+    }
+    for (int i = 0; i < 8; i++) {
+        table[7][i] = (Piece)malloc(sizeof(struct piece));
+        table[7][i]->color = WHITE;
+        if(i == 0 || i == 7) {
+            table[7][i]->type = ROOK;
+        } else if(i == 1 || i == 6) {
+            table[7][i]->type = KNIGHT;
+        } else if(i == 2 || i == 5) {
+            table[7][i]->type = BISHOP;
+        } else if(i == 3) {
+            table[7][i]->type = QUEEN;
+        } else if(i == 4) {
+            table[7][i]->type = KING;
         }
     }
     return table;
 }
+
+
 /*  this function prints the chess table stored in the matrix*/
 void print_matrix(Piece** table) {
     for (int i = 0; i < 8; i++) {
@@ -62,6 +83,8 @@ void print_matrix(Piece** table) {
         printf("\n");
     }
 }
+
+/* function that moves a pawn*/ 
 
 Piece** free_matrix(Piece** table) {
     for (int i = 0; i < 8; i++) {
