@@ -7,9 +7,7 @@ import History from './components/History';
 import Chatbox from './components/Chatbox';
 
 function App() {
-  const [history, setHistory] = useState([
-    {pieceType: "WHITE_PAWN", from: "A1", to: "A2"},
-  ]);
+  const [history, setHistory] = useState([]);
 
   const [gameNumber, setGameNumber] = useState(0);
   const [gameInProgress, setGameInProgress] = useState(false);
@@ -38,6 +36,10 @@ function App() {
             <button className="playBtn" onClick={() => startGame()}>Play with bot</button>
             <button className="playBtn" onClick={() => startGame()}>Play against Friend</button>
           </div>}
+        <div className="btnBox">
+          {history.length > 0 ? <button className="saveBtn">Save game</button> : ""}
+          <button className="loadBtn">Load game</button>
+        </div>
       </header>
       {gameInProgress
       ? <div className="App-body">
