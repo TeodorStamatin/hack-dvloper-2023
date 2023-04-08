@@ -6,32 +6,7 @@ import { useState } from 'react';
 
 import { getNameByPos, getPosByName } from '../pieces/utils.js';
 
-function Chessboard(props) {
-    const [data, setData] = useState(
-        [
-            {
-                type: 'WHITE_PAWN',
-                position: 'A2',
-            },
-            {
-                type: 'WHITE_PAWN',
-                position: 'B2',
-            },
-            {
-                type: 'WHITE_QUEEN',
-                position: 'D1',
-            },
-            {
-                type: 'BLACK_KING',
-                position: 'E8',
-            },
-            {
-                type: 'BLACK_BISHOP',
-                position: 'C8',
-            }
-        ]
-        );
-
+function Chessboard({data, history, setHistory}) {
     const [selectedPiece, setSelectedPiece] = useState(null);
 
     // create a 8x8 empty matrix
@@ -53,7 +28,7 @@ function Chessboard(props) {
     function performMove(i, j) {
         if (selectedPiece === null) return;
         if (chessboard[i][j] !== null) return;
-        props.setHistory([{pieceType: selectedPiece.type, from: selectedPiece.position, to: getNameByPos(i, j)}, ...props.history]);
+    setHistory([{pieceType: selectedPiece.type, from: selectedPiece.position, to: getNameByPos(i, j)}, ...history]);
         let [row, col] = getPosByName(selectedPiece.position);
         chessboard[row][col] = null;
         chessboard[i][j] = selectedPiece;
