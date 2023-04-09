@@ -25,7 +25,7 @@ function App() {
 
     fetch("http://localhost:5000/api/createGame")
     .then(res => res.json())
-    .then((data) => {console.log(data); setData(data.pieces); setGameNumber(data.game_id)});
+    .then((data) => {console.log(data); setData(data.pieces); setGameNumber(loadInput)});
   }
 
   function resignGame() {
@@ -76,8 +76,27 @@ function App() {
     .then((data) => {
       setHistory(data.history);
       console.log(history);
+      setGameNumber(loadInput);
     });
   }
+
+  function signup() {
+    fetch("http://localhost:5000/api/signup", 
+    {
+      method: "POST",
+      body: JSON.stringify(
+        {
+          username: usernameInput,
+          password: passwordInput,
+        }),
+    })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === "success") {
+        setUser(data.username);
+        setLoggedIn(true);
+      }});
+    }
 
   return (
     <div className="App">
@@ -106,6 +125,7 @@ function App() {
           />
           <div className="loginBtnBox">
             <button className="loginBtn" onClick={() => login()}>Login</button>
+            <button className="loginBtn" onClick={() => signup()}>Signup</button>
             <button className="playAsGuestBtn"
                     onClick={() => {
                         setUser("Guest");
