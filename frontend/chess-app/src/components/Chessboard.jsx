@@ -42,28 +42,32 @@ function Chessboard({data,
         {
             method: "POST",
             body: JSON.stringify({
-                pieces: data,
-                from_row: row,
-                from_col: col,
-                to_row: i,
-                to_col: j,
+                history: [...history, {
+                    pieceType: selectedPiece.type,
+                    from: selectedPiece.position,
+                    to: getNameByPos(i, j),
+                }],
         })})
         .then(res => res.json())
-        .then((data) => {console.log(data)});
+        .then((data) => {
+            if (data["isValid"]) {
+                setHistory(
+                [
+                    ...history,
+                    {
+                        pieceType: selectedPiece.type,
+                        from: selectedPiece.position,
+                        to: getNameByPos(i, j)
+                    }
+                ]);
+                chessboard[row][col] = null;
+                chessboard[i][j] = selectedPiece;
+                selectedPiece.position = `${String.fromCharCode(j + 65)}${i + 1}`;
+                setSelectedPiece(null);
+                saveMove(i, j);
+            }
+        });
 
-        setHistory(
-        [
-            {
-                pieceType: selectedPiece.type,
-                from: selectedPiece.position,
-                to: getNameByPos(i, j)
-            }, ...history
-        ]);
-        chessboard[row][col] = null;
-        chessboard[i][j] = selectedPiece;
-        selectedPiece.position = `${String.fromCharCode(j + 65)}${i + 1}`;
-        setSelectedPiece(null);
-        saveMove(i, j);
     }
 
     function saveMove(i, j) {
@@ -78,6 +82,18 @@ function Chessboard({data,
         })})
         .then(res => res.json())
         .then((data) => {console.log(data)});
+    }
+
+    function chooseAction(piece) {
+        if (selectedPiece === null) {
+            setSelectedPiece(piece);
+        }
+        else {
+            const [i, j] = getPosByName(piece.position);
+            console.log(piece.position);
+            performMove(i, j);
+            setSelectedPiece(null);
+        }
     }
 
     let board = [];
@@ -102,7 +118,7 @@ function Chessboard({data,
                 listItems.push(
                     <div key={piece.position}
                         className={`piece ${color} ${selected ? "selected" : ""}`}
-                        onClick={() => setSelectedPiece(piece)}>
+                        onClick={() => chooseAction(piece)}>
                         <Piece piece={piece} />
                     </div>);
             }
