@@ -98,8 +98,12 @@ def index():
 def createGame():
     # chessSDK.init_matrix.restype = POINTER(POINTER(Piece))
     # chessboard = chessSDK.init_matrix()
+
+    conn = get_db()
+    c = conn.cursor()
+
     chessboard = []
-    with open("input.txt", "r") as infile:
+    with open("matrix.txt", "r") as infile:
         for i in range(0, 8):
             chessboard.append([])
             for _ in range(0, 8):
@@ -119,20 +123,71 @@ def createGame():
                     "position": position,
                     "type": chessboard[i][j]
                 })
-
-    return jsonify(pieces)
+    c.execute("CREATE TABLE IF NOT EXISTS games (id INTEGER PRIMARY KEY, white_id INTEGER, black_id INTEGER, FOREIGN KEY (white_id) REFERENCES users(id), FOREIGN KEY (black_id) REFERENCES users(id))")
+    c.execute("INSERT INTO games (white_id, black_id) VALUES (?, ?)", (1, 2))
+    c.execute("SELECT last_insert_rowid()")
+    conn.commit()
+    row = c.fetchone()
+    inserted_id = row[0]
+    conn.close()
+    
+    return jsonify({"pieces": pieces, "game_id": inserted_id})
 
 @app.route("/api/checkMove", methods = ['POST'])
 def checkMove():
     data = request.data.decode('utf-8')
     json_data = json.loads(data)
-    with open("input.txt", "w") as outfile:
+    with open("matrix.txt", "w") as outfile:
         for piece in json_data["pieces"]:
-            outfile.write(piece["type"] + "," + str(int(piece["position"][1]) - 1) + "," + str(ord(piece["position"][0]) - ord('A')))
-    chessSDK.check_move.argtypes = [c_int, c_int, c_int, c_int]
-    chessSDK.check_move.restype = c_int
-    isValid = chessSDK.check_move(json_data["fromRow"], json_data["fromCol"], json_data["toRow"], json_data["toCol"])
-    return jsonify({"isValid": isValid})
+            outfile.write(piece["type"] + "," + str(int(piece["position"][1]) - 1) + "," + str(ord(piece["position"][0]) - ord('A')) + "\n")
+    with open("move.txt", "w") as outfile:
+        outfile.write(str(json_data["from_row"]) + "," + str(json_data["from_col"]) + "," + str(json_data["to_row"]) + "," + str(json_data["to_col"]) + "\n")
+
+    # chessSDK.return_check.restype = c_int
+    # isValid = chessSDK.return_check()
+    # print(isValid)
+    return jsonify({"isValid": True})
+
+@app.route("/api/saveMove", methods = ['POST'])
+def saveMove():
+    data = request.data.decode('utf-8')
+    json_data = json.loads(data)
+
+    conn = get_db()
+    c = conn.cursor()
+    c.execute("CREATE TABLE IF NOT EXISTS moves (id INTEGER PRIMARY KEY, game_id INTEGER, piece TEXT, positionFrom TEXT, positionTo TEXT)")
+    c.execute("INSERT INTO moves (game_id, piece, positionFrom, positionTo) VALUES (?, ?, ?, ?)", (json_data["game_id"], json_data["piece"], json_data["positionFrom"], json_data["positionTo"]))
+    conn.commit()
+    return jsonify({"status": "success"})
+
+@app.route("/api/loadGame", methods = ['POST'])
+def loadGame():
+    data = request.data.decode('utf-8')
+    json_data = json.loads(data)
+
+    conn = get_db()
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM moves WHERE game_id = (?)", (json_data["game_id"],))
+    moves = c.fetchall()
+    history = []
+    for move in moves:
+        history.append({
+            "pieceType": move[2],
+            "from": move[3],
+            "to": move[4]
+        })
+    return jsonify({"history": history})
+
+@app.route("/api/saveMessage", methods = ['POST'])
+def saveMessage():
+    data = request.data.decode('utf-8')
+    json_data = json.loads(data)
+
+    conn = get_db()
+    c = conn.cursor()
+
+    c.execute("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, username TEXT, meesage TEXT, game_id INTEGER, FOREIGN KEY (game_id) REFERENCES games(id))")
 
 if __name__ == "__main__":
     create_users_table()
