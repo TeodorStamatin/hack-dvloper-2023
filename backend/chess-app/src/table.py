@@ -1,53 +1,47 @@
 #!bin/usr/python3
+from stockfish import Stockfish
+import chess
+import chess.engine
+import time
 
-from flask import Flask, request, session, redirect, jsonify
-import bcrypt
-import sqlite3
-def createGame():
-    chessboard = []
-    with open("input.txt", "r") as infile:
-        for i in range(0, 8):
-            chessboard.append([])
-            for _ in range(0, 8):
-                chessboard[i].append(None)
-        for line in infile:
-            (piece, i, j) = line.split(",")
-            print(piece, i, j)
-            print(chessboard)
-            chessboard[int(i)][int(j)] = piece
-    pieces = []
-    for i in range(0, 8):
-        for j in range(0, 8):
-            if chessboard[i][j] is not None:
-                position = chr(ord('A') + j) + str(i + 1)
-                pieces.append({
-                    "position": position,
-                    "type": chessboard[i][j]
-                })
+stockfish = Stockfish("/usr/games/stockfish")
+stockfish.set_skill_level(20)
 
-    return jsonify(pieces)
+engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
+board = chess.Board()
+#read the move from the move.txt file
 
-def print_chess_board(board):
-    for row in board:
-        print(row)
+# Play the game
+def print_board(board):
+    with open('matrix.txt', 'w') as f:
+        for row in range(8):
+            for col in range(8):
+                square = chess.square(col, 7-row)
+                piece = board.piece_at(square)
+                if piece is not None:
+                    piece_str = chess.COLOR_NAMES[piece.color].upper() + "_" + chess.PIECE_NAMES[piece.piece_type].upper()
+                    x, y = chess.square_file(square), chess.square_rank(square)
+                    print(f"{piece_str},{x},{y}", file=f)
 
-#function that checks if chess move is valid. this means you should check if the position where you move is NULL, and if it is not,
-#you should check if your chess piece has the right movement to go there, and if a piece is there, check that is doesnt have the same 
-#color. lastly, you should check that if you move the wanted piece, your king cant be taken by other color chess pieces. NOTE THAT 
-#ONLY table->type->knight can jump over other piece. other pieces cand go to the wanted position if they have to go through an occupied
-#position on the table.
 
-def check_move(board, color, piece, start, end):
-    if board[end[0]][end[1]] == None:
-        return True
-    elif board[end[0]][end[1]][0] != color:
-        return True
+def is_legal_move(board):
+    with open('move.txt', 'r') as f:
+        move_str = f.read()
+    move = chess.Move.from_uci(move_str)
+    if move in board.legal_moves:
+        return 1
     else:
-        return False
-    
+        return 0
 
-def main():
-    board = create_chess_board()
-    print_chess_board(board)
 
-main()
+
+print_board(board)
+print(is_legal_move(board))
+with open('move.txt', 'r') as f:
+    move_str = f.read()
+move = chess.Move.from_uci(move_str)
+if is_legal_move(board):
+    board.push(move)
+print_board(board)
+# Close the engine
+engine.quit()
