@@ -6,7 +6,15 @@ import { useState } from 'react';
 
 import { getNameByPos, getPosByName } from '../pieces/utils.js';
 
-function Chessboard({data, history, setHistory, gameNumber}) {
+function Chessboard({data,
+                    history,
+                    setHistory,
+                    gameNumber,
+                    resignGame,
+                    loadGame,
+                    loadInput,
+                    setLoadInput}
+                    ) {
     const [selectedPiece, setSelectedPiece] = useState(null);
 
     // create a 8x8 empty matrix
@@ -34,21 +42,32 @@ function Chessboard({data, history, setHistory, gameNumber}) {
         {
             method: "POST",
             body: JSON.stringify({
-                pieces: data,
-                from_row: row,
-                from_col: col,
-                to_row: i,
-                to_col: j,
+                history: [...history, {
+                    pieceType: selectedPiece.type,
+                    from: selectedPiece.position,
+                    to: getNameByPos(i, j),
+                }],
         })})
         .then(res => res.json())
-        .then((data) => {console.log(data)});
+        .then((data) => {
+            if (data["isValid"]) {
+                setHistory(
+                [
+                    ...history,
+                    {
+                        pieceType: selectedPiece.type,
+                        from: selectedPiece.position,
+                        to: getNameByPos(i, j)
+                    }
+                ]);
+                chessboard[row][col] = null;
+                chessboard[i][j] = selectedPiece;
+                selectedPiece.position = `${String.fromCharCode(j + 65)}${i + 1}`;
+                setSelectedPiece(null);
+                saveMove(i, j);
+            }
+        });
 
-    setHistory([{pieceType: selectedPiece.type, from: selectedPiece.position, to: getNameByPos(i, j)}, ...history]);
-        chessboard[row][col] = null;
-        chessboard[i][j] = selectedPiece;
-        selectedPiece.position = `${String.fromCharCode(j + 65)}${i + 1}`;
-        setSelectedPiece(null);
-        saveMove(i, j);
     }
 
     function saveMove(i, j) {
@@ -63,6 +82,18 @@ function Chessboard({data, history, setHistory, gameNumber}) {
         })})
         .then(res => res.json())
         .then((data) => {console.log(data)});
+    }
+
+    function chooseAction(piece) {
+        if (selectedPiece === null) {
+            setSelectedPiece(piece);
+        }
+        else {
+            const [i, j] = getPosByName(piece.position);
+            console.log(piece.position);
+            performMove(i, j);
+            setSelectedPiece(null);
+        }
     }
 
     let board = [];
@@ -85,19 +116,43 @@ function Chessboard({data, history, setHistory, gameNumber}) {
 
             if (piece !== null) {
                 listItems.push(
-                    <div key={piece.position} className={`piece ${color} ${selected ? "selected" : ""}`} onClick={() => setSelectedPiece(piece)}>
+                    <div key={piece.position}
+                        className={`piece ${color} ${selected ? "selected" : ""}`}
+                        onClick={() => chooseAction(piece)}>
                         <Piece piece={piece} />
                     </div>);
             }
             else 
-                listItems.push(<div key={getNameByPos(i, j)} className={`piece ${color}`} onClick={() => performMove(i, j)}></div>);
+                listItems.push(<div key={getNameByPos(i, j)} 
+                                    className={`piece ${color}`}
+                                    onClick={() => performMove(i, j)}>
+                                </div>);
         })
         board.push(<div className="row" key={`key` + i}>{listItems}</div>)
     })
     // construct a jsx object based on chessboard
   return (
-    <div className="chessBoard">
-        {board}
+    <div>
+        <div className="btnBox">
+            <input className="loadInput"
+                    placeholder='Game ID'
+                    value={loadInput}
+                    onChange={(event) => setLoadInput(event.target.value)}
+            />
+            <button className="loadBtn"onClick={() => loadGame()}>
+              <b>Load game</b>
+            </button>
+        </div>
+        <h2>Game: <span className="gameNumber">#{gameNumber}</span></h2>
+        <div className="chessBoard">
+            {board}
+        </div>
+        <div className="resignBtnBox">
+            <button className="resignBtn"
+                    onClick={() => resignGame()}>
+            Resign game
+            </button>
+        </div>
     </div>
     )
 }

@@ -7,7 +7,10 @@ function Piece(props) {
     console.log(props);
   return (
     <div>
-      <img className="pieceImg" src={getPieceImage(props.piece.type)} alt={props.piece.type} />
+      <img className="pieceImg"
+            src={getPieceImage(props.piece.type)}
+            alt={props.piece.type}
+      />
     </div>
   )
 }
