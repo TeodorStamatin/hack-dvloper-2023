@@ -17,6 +17,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [loadInput, setLoadInput] = useState("");
 
   function startGame() {
     setGameInProgress(true);
@@ -24,7 +25,7 @@ function App() {
 
     fetch("http://localhost:5000/api/createGame")
     .then(res => res.json())
-    .then((data) => {console.log(data); setData(data);});
+    .then((data) => {console.log(data); setData(data.pieces); setGameNumber(data.game_id)});
   }
 
   function resignGame() {
@@ -64,6 +65,20 @@ function App() {
     }});
   }
 
+  function loadGame() {
+    fetch("http://localhost:5000/api/loadGame", 
+    {
+      method: "POST",
+      body: JSON.stringify(
+        { game_id: loadInput }),
+    })
+    .then(res => res.json())
+    .then((data) => {
+      setHistory(data.history);
+      console.log(history);
+    });
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -72,30 +87,39 @@ function App() {
         <div className="loginBox">
           <input type="text" placeholder="Username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />  
           <input type="password" placeholder="Password" value={passwordInput} onChange={(event) => setPasswordInput(event.target.value)}/>
-          <button className="loginBtn" onClick={() => login()}>Login</button>
-          <button className="playAsGuestBtn">Play as guest</button>
+          <div className="loginBtnBox">
+            <button className="loginBtn" onClick={() => login()}>Login</button>
+            <button className="playAsGuestBtn">Play as guest</button>
+          </div>
         </div>
         }
-        {gameInProgress 
+        {gameInProgress
         ? <div>
             <h2>Game: <span className="gameNumber">#{gameNumber}</span></h2>
             <div className="resignBtnBox">
               <button className="resignBtn" onClick={() => resignGame()}>Resign game</button>
             </div>
           </div>
-        : <div className="playBtnBox">
+        : ""}
+        {user !== "" ?
+        <div>
+          { gameInProgress ? "" :
+          <div className="playBtnBox">
             <button className="playBtn" onClick={() => startGame()}>Play with bot</button>
             <button className="playBtn" onClick={() => startGame()}>Play against Friend</button>
-          </div>}
-        <div className="btnBox">
-          {history.length > 0 ? <button className="saveBtn">Save game</button> : ""}
-          <button className="loadBtn">Load game</button>
+          </div>
+          }
+          <div className="btnBox">
+            <input className="loadInput" placeholder='Game ID' value={loadInput} onChange={(event) => setLoadInput(event.target.value)}/>
+            <button className="loadBtn" onClick={() => loadGame()}>Load game</button>
+          </div>
         </div>
+        : ""}
       </header>
       {gameInProgress
       ? <div className="App-body">
         <History history={history} setHistory={setHistory} />
-        <Chessboard data={data} history={history} setHistory={setHistory} />
+        <Chessboard data={data} history={history} setHistory={setHistory} gameNumber={gameNumber} />
         <Chatbox userColor={"white"}/>
       </div>
       : ""
