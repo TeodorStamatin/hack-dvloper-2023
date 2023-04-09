@@ -77,11 +77,11 @@ def login():
 # Route for handling sign-up requests
 @app.route("/api/signup", methods=["POST"])
 def signup():
-    username = request.json["username"]
-    password = request.json["password"]
-    insert_user(username, password)
-    session["username"] = username
-    return jsonify({"status": "success"})
+    data = request.data.decode('utf-8')
+    json_data = json.loads(data)
+    insert_user(json_data["username"], json_data["password"])
+    session["username"] = json_data["username"]
+    return jsonify({"status": "success", "username": json_data["username"]})
 
 # Route for handling logout requests
 @app.route("/api/logout", methods = ["GET"])
