@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Chessboard from './components/Chessboard';
 import History from './components/History';
@@ -82,44 +82,59 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>The Black Sheep | Chess Engine</h1>
-        { loggedIn ? <span>{`Hi, ${user}! Welcome among black sheep!`}<span className="logoutBtn" onClick={()=>logout()}>Logout</span></span>: 
+        <h1><span className="tbs">The Black Sheep</span> Chess Engine</h1>
+        { loggedIn 
+        ? <span className="helloWorld">
+          Hi, <b>{user}</b>! Welcome among black sheep!
+          <span className="logoutBtn" onClick={()=>logout()}>Logout</span>
+          </span>
+          : 
         <div className="loginBox">
-          <input type="text" placeholder="Username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />  
-          <input type="password" placeholder="Password" value={passwordInput} onChange={(event) => setPasswordInput(event.target.value)}/>
+          <input type="text"
+                  placeholder="Username"
+                  value={usernameInput}
+                  onChange={
+                    (event) => setUsernameInput(event.target.value)
+                  }
+          />  
+          <input type="password"
+                  placeholder="Password"
+                  value={passwordInput}
+                  onChange={(
+                    event) => setPasswordInput(event.target.value)
+                  }
+          />
           <div className="loginBtnBox">
             <button className="loginBtn" onClick={() => login()}>Login</button>
-            <button className="playAsGuestBtn">Play as guest</button>
+            <button className="playAsGuestBtn"
+                    onClick={() => {
+                        setUser("Guest");
+                        setLoggedIn(true);
+                      }
+                    }>Play as guest</button>
           </div>
         </div>
         }
-        {gameInProgress
-        ? <div>
-            <h2>Game: <span className="gameNumber">#{gameNumber}</span></h2>
-            <div className="resignBtnBox">
-              <button className="resignBtn" onClick={() => resignGame()}>Resign game</button>
-            </div>
-          </div>
-        : ""}
-        {user !== "" ?
+        { gameInProgress ? "" :
         <div>
-          { gameInProgress ? "" :
           <div className="playBtnBox">
             <button className="playBtn" onClick={() => startGame()}>Play with bot</button>
             <button className="playBtn" onClick={() => startGame()}>Play against Friend</button>
           </div>
-          }
-          <div className="btnBox">
-            <input className="loadInput" placeholder='Game ID' value={loadInput} onChange={(event) => setLoadInput(event.target.value)}/>
-            <button className="loadBtn" onClick={() => loadGame()}>Load game</button>
           </div>
-        </div>
-        : ""}
+        }
       </header>
-      {gameInProgress
+      {gameInProgress && loggedIn
       ? <div className="App-body">
         <History history={history} setHistory={setHistory} />
-        <Chessboard data={data} history={history} setHistory={setHistory} gameNumber={gameNumber} />
+        <Chessboard data={data}
+                    history={history}
+                    setHistory={setHistory}
+                    gameNumber={gameNumber}
+                    resignGame={resignGame}
+                    loadGame={loadGame}
+                    loadInput={loadInput}
+                    setLoadInput={setLoadInput}/>
         <Chatbox userColor={"white"}/>
       </div>
       : ""

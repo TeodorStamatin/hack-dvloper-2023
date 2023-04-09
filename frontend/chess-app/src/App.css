@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+.tbs {
+  background-color: rgb(74, 49, 173);
+  padding: 0px 10px 0px 10px;
+  color: black;
+}
+
 .App {
   text-align: center;
   height: 100vh;
@@ -11,7 +17,7 @@
 }
 
 .App-header {
-  padding: 2.5em;
+  padding: 2.5em 2.5em 0em 2.5em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,7 +60,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 5em; */
+  margin: 1em;
   border: 5px solid black;
 }
 
@@ -98,7 +104,7 @@ body {
   margin: 5px;
   background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 5px;
   width: 175px;
   padding: 0.5em;
 }
@@ -125,6 +131,7 @@ body {
 }
 
 .otherMessage {
+  background-color: rgba(255, 255, 255, 0.025);
   align-self: flex-start;
 }
 
@@ -163,7 +170,7 @@ body {
 .playBtn {
   width: 240px;
   height: 50px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   font-size: 1.2em;
@@ -172,22 +179,22 @@ body {
 }
 
 .resignBtnBox {
-  width: 500px;
+  width: 400px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 0.5em;
+  margin: 0.4em;
 }
 
 .resignBtn {
-  width: 240px;
-  height: 50px;
-  border-radius: 10px;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   font-size: 1.2em;
-  border: 3px solid rgba(168, 17, 77, 0.7);
+  border: 3px solid rgba(74, 49, 173, 0.7);
   cursor: pointer;
 }
 
@@ -203,17 +210,18 @@ body {
 .loadBtn {
   width: 150px;
   padding: 0.5em;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px 5px 5px 0px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border: 3px solid rgba(74, 49, 173, 0.7);
+  border-left: 0px;
   cursor: pointer;
 }
 
 .saveBtn {
   width: 240px;
   height: 50px;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   font-size: 1.2em;
@@ -236,7 +244,7 @@ body {
   padding: 0.5em;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.2);
-  border: 2px solid rgba(74, 49, 173, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .loginBox input:focus {
@@ -253,6 +261,10 @@ body {
   cursor: pointer;
 }
 
+.loginBox input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .loginBtnBox {
   display: flex;
   flex-direction: row;
@@ -264,14 +276,31 @@ body {
 .loadInput {
   width: 100px;
   padding: 0.5em;
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 5px 0px 0px 5px;
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
   border: 3px solid rgba(74, 49, 173, 0.7);
+  border-right: 0px;
   cursor: pointer;
   text-align: center;
 }
 
 .loadInput:focus {
   outline: none;
+}
+
+.logoutBtn {
+  padding: 5px;
+  color: red;
+}
+
+.btnBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.helloWorld {
+  padding: 1em;
 }

@@ -1,7 +1,7 @@
 export function getPosByName(name) {
-    let col = name.charCodeAt(0) - "A".charCodeAt(0);
-    let row = name.charCodeAt(1) - "1".charCodeAt(0);
-    return [row, col];
+    let row = name.charCodeAt(0) - "A".charCodeAt(0);
+    let col = name.charCodeAt(1) - "1".charCodeAt(0);
+    return [col, row];
 }
 
 export function getNameByPos(i, j) {
