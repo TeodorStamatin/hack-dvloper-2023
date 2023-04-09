@@ -34,14 +34,14 @@ def is_legal_move(board):
         return 0
 
 
-
-print_board(board)
-print(is_legal_move(board))
-with open('move.txt', 'r') as f:
-    move_str = f.read()
-move = chess.Move.from_uci(move_str)
-if is_legal_move(board):
-    board.push(move)
-print_board(board)
-# Close the engine
-engine.quit()
+if __name__ == "__main__":
+    print_board(board)
+    print(is_legal_move(board))
+    with open('move.txt', 'r') as f:
+        move_str = f.read()
+    move = chess.Move.from_uci(move_str)
+    if is_legal_move(board):
+        board.push(move)
+    print_board(board)
+    # Close the engine
+    engine.quit()

@@ -4,6 +4,9 @@ from flask import Flask, request, session, redirect, jsonify
 import sqlite3
 import bcrypt
 from ctypes import *
+import chess
+import chess.engine
+from stockfish import Stockfish
 
 (BLACK, WHITE) = (0, 1)
 (PAWN, BISHOP, KNIGHT, KING, QUEEN, ROOK) = (0, 1, 2, 3, 4, 5)
@@ -94,11 +97,24 @@ def index():
     else:
         return jsonify({"message": "Not logged in"})
 
+# Play the game
+def print_board(board):
+    with open('matrix.txt', 'w') as f:
+        for row in range(8):
+            for col in range(8):
+                piece = board.piece_at(chess.square(row, col))
+                if piece is not None:
+                    color = "WHITE" if piece.color == chess.WHITE else "BLACK"
+                    piece_str = f"{color}_{chess.PIECE_NAMES[piece.piece_type].upper()}"
+                    x, y = row, col
+                    f.write(f"{piece_str},{x},{y}\n")
+
 @app.route("/api/createGame", methods = ['GET'])
 def createGame():
     # chessSDK.init_matrix.restype = POINTER(POINTER(Piece))
     # chessboard = chessSDK.init_matrix()
-
+    board = chess.Board()
+    print_board(board)
     conn = get_db()
     c = conn.cursor()
 
@@ -109,7 +125,7 @@ def createGame():
             for _ in range(0, 8):
                 chessboard[i].append(None)
         for line in infile:
-            (piece, i, j) = line.split(",")
+            (piece, j, i) = line.split(",")
             print(piece, i, j)
             print(chessboard)
             chessboard[int(i)][int(j)] = piece
@@ -133,19 +149,40 @@ def createGame():
     
     return jsonify({"pieces": pieces, "game_id": inserted_id})
 
+def print_board(board):
+    with open('matrix.txt', 'w') as f:
+        for row in range(8):
+            for col in range(8):
+                square = chess.square(col, 7-row)
+                piece = board.piece_at(square)
+                if piece is not None:
+                    piece_str = chess.COLOR_NAMES[piece.color].upper() + "_" + chess.PIECE_NAMES[piece.piece_type].upper()
+                    x, y = chess.square_file(square), chess.square_rank(square)
+                    print(f"{piece_str},{x},{y}", file=f)
+
 @app.route("/api/checkMove", methods = ['POST'])
 def checkMove():
     data = request.data.decode('utf-8')
     json_data = json.loads(data)
-    with open("matrix.txt", "w") as outfile:
-        for piece in json_data["pieces"]:
-            outfile.write(piece["type"] + "," + str(int(piece["position"][1]) - 1) + "," + str(ord(piece["position"][0]) - ord('A')) + "\n")
-    with open("move.txt", "w") as outfile:
-        outfile.write(str(json_data["from_row"]) + "," + str(json_data["from_col"]) + "," + str(json_data["to_row"]) + "," + str(json_data["to_col"]) + "\n")
-
-    # chessSDK.return_check.restype = c_int
-    # isValid = chessSDK.return_check()
-    # print(isValid)
+    print(json_data["history"])
+    board = chess.Board()
+    print("AICI IGL", json_data["history"])
+    for piece in json_data["history"]:
+        move = (piece["from"] + piece["to"]).lower()
+        chess_move = chess.Move.from_uci(move)
+        legal_moves = list(board.legal_moves)
+        print()
+        print(chess_move) 
+        print(legal_moves)
+        if chess_move in legal_moves:
+            print(board)
+            board.push(chess_move)
+            print(board)
+            print(json_data["history"])
+        else:
+            print(board)
+            return jsonify({"isValid": False})
+    
     return jsonify({"isValid": True})
 
 @app.route("/api/saveMove", methods = ['POST'])
