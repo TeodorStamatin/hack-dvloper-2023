@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 from flask import Flask, request, session, redirect, jsonify
-import bcrypt
 import sqlite3
+import bcrypt
 from ctypes import *
 
 (BLACK, WHITE) = (0, 1)
